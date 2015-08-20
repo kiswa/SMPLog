@@ -1,0 +1,113 @@
+body {
+    color: $font-color;
+    font-size: 1.1em;
+    line-height: 1.8em;
+}
+
+a {
+    background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==);
+    background-position: left 1.1em;
+    background-repeat: repeat-x;
+    color: $font-color;
+    text-decoration: none;
+    transition: all .2s ease-in-out;
+
+    &:hover,
+    &:active {
+        background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+    }
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid lighten($font-color, 70%);
+}
+
+body>header {
+    font-size: .8em;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    .left,
+    .right {
+        margin: 2em 1em;
+    }
+
+
+    a {
+        background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+        border: 1px solid transparent;
+        border-radius: 2px;
+        color: lighten($font-color, 55%);
+        padding: .5em 1em;
+        text-decoration: none;
+
+        &:hover,
+        &:active {
+            border: 1px solid lighten($font-color, 70%);
+        }
+    }
+}
+
+main {
+    background-color: #fff;
+    box-shadow: 0 0 35px 0 rgba(0, 0, 0, .25);
+    margin-bottom: 3em;
+    margin-top: 5em;
+    padding-bottom: 2em;
+    padding-top: 2em;
+    position: relative;
+    z-index: 10;
+
+    @include media($small) {
+        margin-bottom: 15vh;
+        margin-top: 15vh;
+    }
+
+    h1 {
+        font-size: 3em;
+    }
+}
+
+body>footer {
+    bottom: 0;
+    color: lighten($font-color, 55%);
+    font-size: .8em;
+    left: 0;
+    min-height: 3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    position: fixed;
+    right: 0;
+
+    p {
+        margin-bottom: .5em;
+        margin-top: 0;
+    }
+
+    a {
+        background-image: none;
+        color: lighten($font-color, 35%);
+        text-decoration: none;
+        transition: all .2s linear;
+
+        &:hover,
+        &:active {
+            color: lighten($font-color, 15%);
+        }
+    }
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.center {
+    text-align: center;
+}

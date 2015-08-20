@@ -1,0 +1,28 @@
+<article>
+    <header>
+        <h1>{{ postsCtrl.post.title }}</h1>
+        <p>Published <span class="date">{{ postsCtrl.post.publishDate * 1000 | date: 'fullDate' }}</span>
+            <span data-ng-if="postsCtrl.post.tags.length"> on <a href="">Tag1</a>, <a href="">Tag2</a>, <a href="">etc.</a></span></p>
+    </header>
+
+    <section><div data-ng-bind-html="postsCtrl.convertedMarkdown"></div></section>
+
+    <footer>
+        <img class="author" src="{{ postsCtrl.author.image }}" alt="Author Image"
+            data-ng-if="postsCtrl.author.image.length">
+        <div class="left">
+            <p class="header"><a href="authors/{{ postsCtrl.author.id }}">{{ postsCtrl.author.name }}</a></p>
+            <p>Read <a href="authors/{{ postsCtrl.author.id }}">more posts</a> from this author.</p>
+        </div>
+        <div class="right">
+            <p class="header">Share this post</p>
+            <p class="share">
+                <a href="http://twitter.com/share?url={{ postsCtrl.encodedUrl }}&text={{ postsCtrl.post.title }}" class="twitter" target="_blank"><i class="fa fa-2x fa-twitter-square"></i></a>
+                <a href="http://reddit.com/submit?url={{ postsCtrl.encodedUrl }}&title={{ postsCtrl.post.title }}" class="reddit" target="_blank"><i class="fa fa-2x fa-reddit-square"></i></a>
+                <a href="http://www.facebook.com/sharer/sharer.php?u={{ postsCtrl.encodedUrl }}" class="facebook" target="_blank"><i class="fa fa-2x fa-facebook-square"></i></a>
+                <a href="https://plus.google.com/share?url={{ postsCtrl.encodedUrl }}" class="gplus" target="_blank"><i class="fa fa-2x fa-google-plus-square"></i></a>
+                <a href="http://www.linkedin.com/shareArticle?url={{ postsCtrl.encodedUrl }}&title={{ postsCtrl.post.title }}" class="linkedin" target="_blank"><i class="fa fa-2x fa-linkedin-square"></i></a>
+            </p>
+        </div>
+    </footer>
+</article>

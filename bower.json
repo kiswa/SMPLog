@@ -1,0 +1,28 @@
+{
+  "name": "SMPLog",
+  "version": "0.1.0",
+  "authors": [
+    "Matthew Ross"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "description": "A simple Markdown-based blog.",
+  "dependencies": {
+    "angular": "~1.4.4",
+    "angular-animate": "~1.4.4",
+    "angular-route": "~1.4.4",
+    "angular-sanitize": "~1.4.4",
+    "bourbon": "~4.2.3",
+    "fontawesome": "~4.4.0",
+    "highlightjs": "~8.7.0",
+    "marked": "~0.3.5",
+    "neat": "~1.7.2",
+    "normalize.css": "~3.0.3"
+  }
+}

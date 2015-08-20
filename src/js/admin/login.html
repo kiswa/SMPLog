@@ -1,0 +1,16 @@
+<section>
+    <form name="loginForm" data-ng-submit="loginCtrl.formData.submit()">
+        <div class="text-center" data-ng-show="loginCtrl.formData.alerts.length">
+            <span data-ng-repeat="alert in loginCtrl.formData.alerts" class="{{ alert.type }}">{{ alert.text }}</span>
+        </div>
+        <div>
+            <label for="username">Username</label>
+            <input type=text" id="username" data-ng-model="loginCtrl.formData.username">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" data-ng-model="loginCtrl.formData.password">
+        </div>
+        <button type="submit">Log In</button>
+    </form>
+</section>

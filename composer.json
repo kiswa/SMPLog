@@ -1,0 +1,14 @@
+{
+    "require": {
+        "slim/slim": "^2.6",
+        "gabordemooij/redbean": "^4.2",
+        "firebase/php-jwt": "^3.0",
+        "cebe/markdown": "^1.1"
+    },
+
+    "authors": [
+        { "name": "Matthew Ross" }
+    ],
+
+    "minimum-stability": "stable"
+}
