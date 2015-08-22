@@ -46,6 +46,7 @@ var gulp = require('gulp'),
             'vendor/composer/**/*.*',
             'vendor/firebase/**/*.*',
             'vendor/gabordemooij/**/*.*',
+            'vendor/ircmaxell/**/*.*',
             'vendor/slim/**/*.*',
             'vendor/cebe/**/*.*'
         ],
