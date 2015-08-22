@@ -241,9 +241,11 @@
             if ($window.confirm('This cannot be undone. Are you sure?')) {
                 AdminService.deletePost(postId)
                     .success(function(data) {
-                        $scope.posts.filter(function(post) {
+                        $scope.posts = $scope.posts.filter(function(post) {
                             return post.id !== postId;
                         });
+
+                        initPaging();
                     });
             }
         }

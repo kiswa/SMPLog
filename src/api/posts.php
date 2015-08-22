@@ -62,10 +62,9 @@ class Posts extends ApiBase {
             $post->title = $data->title;
             $post->text = $data->text;
 
-            // Only add to user's posts if new post.
-            if ($data->id) {
+            if ($post->id) {
                 R::store($post);
-            } else {
+            } else { // New post
                 $post->isPublished = false;
                 $post->slug = $this->create_unique_slug($post->title);
 

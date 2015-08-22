@@ -83,6 +83,9 @@
             AdminService.savePost(vm.postForm.title, vm.postForm.text, vm.postForm.id)
                 .success(function(data) {
                     if (data.status === 'success') {
+                        vm.postForm.id = data.data[0].id;
+                        vm.isEdit = true;
+
                         $scope.$broadcast('notifySuccess',
                                 'Post "' + vm.postForm.title + '" saved.');
                     } else {
