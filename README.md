@@ -107,10 +107,10 @@ Because I find it interesting, even if it's not a good metric.
 
 |Language                 |  Files       | Blank      |   Comment    |  Code  |
 |-------------------------|:------------:|:----------:|:------------:|:------:|
-|Javascript               |   16         |  242       |      1       |  1046  |
+|Javascript               |   16         |  244       |      1       |  1049  |
 |SASS                     |    8         |  153       |      1       |   711  |
-|PHP                      |    9         |  192       |     17       |   601  |
+|PHP                      |    9         |  192       |     16       |   601  |
 |HTML                     |   10         |   16       |      0       |   291  |
-|**SUM:**                 | **43**       |**603**     |   **19**     |**2649**|
+|**SUM:**                 | **43**       |**605**     |   **18**     |**2652**|
 
-Last updated August 20, 2015
+Last updated August 22, 2015
