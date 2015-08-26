@@ -8,7 +8,7 @@ with a mobile-first point of view, and works well on any device.
  1. Clone the repo: `git clone https://github.com/kiswa/SMPLog`
  2. Install dependencies: `./dev-setup` or `bower install && npm install &&
  ./composer.phar install`
- 3. Build SMPLog: `gulp`
+ 3. Build and minify SMPLog: `gulp && gulp minify`
 
 After building, the `dist` directory has all the files needed to run SMPLog.
 Copy it to wherever you want it and start using SMPLog.
