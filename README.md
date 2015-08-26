@@ -71,9 +71,7 @@ text will be `Some Header Text` and not the first actual paragraph.
 There are a few features that might make this more useful, which are planned for
 further development.
 
- * Create "tags" for posts
- * Use "tags" to display posts
- * Removed user data management
+See [Issue #1](https://github.com/kiswa/SMPLog/issues/1)
 
 ## Tech Used
 
