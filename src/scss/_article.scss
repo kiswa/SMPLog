@@ -21,6 +21,30 @@ article {
         padding-left: 2em;
     }
 
+    acronym {
+        border-bottom: 1px dotted lighten($font-color, 50%);
+        cursor: pointer;
+    }
+
+    table {
+        border: 1px solid lighten($font-color, 50%);
+
+        thead {
+            background-color: lighten($font-color, 76%);
+            border-bottom: 1px solid lighten($font-color, 50%);
+        }
+
+        td {
+            padding: .5em 1em;
+        }
+
+        tbody {
+            tr:nth-of-type(even) {
+                background-color: lighten($font-color, 76%);
+            }
+        }
+    }
+
     header {
         h1 {
             line-height: 1.1em;
