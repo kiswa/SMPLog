@@ -5,9 +5,9 @@
         .module('SMPLog')
         .controller('PostsController', PostsController);
 
-    PostsController.$inject = ['$window', '$routeParams', '$location', 'ApiService'];
+    PostsController.$inject = ['$window', '$routeParams', '$location', '$rootScope', 'ApiService'];
 
-    function PostsController($window, $routeParams, $location, ApiService) {
+    function PostsController($window, $routeParams, $location, $rootScope, ApiService) {
         var vm = this;
 
         angular.element(document.body).removeClass('home');
@@ -25,7 +25,10 @@
 
                 loadAuthorData();
                 updateMarkdown();
+
                 vm.encodedUrl = getUrl();
+
+                loadOpenGraphTags();
             });
 
         function loadAuthorData() {
@@ -60,6 +63,10 @@
 
         function getUrl() {
             return $window.encodeURI($location.absUrl());
+        }
+
+        function loadOpenGraphTags() {
+            $rootScope.vm.openGraphTags = '';
         }
     }
 })();
