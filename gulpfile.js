@@ -1,241 +1,220 @@
-var gulp = require('gulp'),
-    del = require('del'),
-    concat = require('gulp-concat'),
-    mainFiles = require('bower-files'),
-    merge = require('merge-stream'),
+'use strict';
+
+let gulp = require('gulp'),
     fs = require('fs'),
+    del = require('del'),
+    touch = require('touch'),
+    merge = require('merge-stream'),
+    SystemBuilder = require('systemjs-builder'),
 
-    scssLint = require('gulp-scss-lint'),
-    sass = require('gulp-ruby-sass'),
-    cssPrefixer = require('gulp-autoprefixer'),
-    cssMinify = require('gulp-minify-css'),
-
-    jsLint = require('gulp-jshint'),
-    jsLintRep = require('jshint-stylish'),
+    tsc = require('gulp-typescript'),
+    tsProject = tsc.createProject('tsconfig.json'),
     jsMinify = require('gulp-uglify'),
 
-    imageMin = require('gulp-imagemin'),
+    mocha = require('gulp-mocha'),
+    coverage = require('gulp-coverage'),
+    phpunit = require('gulp-phpunit'),
 
-    node,
-    spawn = require('child_process').spawn,
-    exec = require('child_process').exec,
+    composer = require('gulp-composer'),
+    concat = require('gulp-concat'),
 
-    src = 'src/',
-    dist = 'dist/',
-    bourbon = 'bower_components/bourbon/app/assets/stylesheets',
-    neat = 'bower_components/neat/app/assets/stylesheets',
-    hljs = 'bower_components/highlightjs/styles/zenburn.css',
-    fa = {
-        css: 'bower_components/fontawesome/css/font-awesome.css',
-        fonts: 'bower_components/fontawesome/fonts/**.*'
-    },
+    scssLint = require('gulp-scss-lint'),
+    sass = require('gulp-sass'),
+    cssPrefixer = require('gulp-autoprefixer'),
+    cssMinify = require('gulp-cssnano'),
+
     paths = {
-        js: src + 'js/**/*.js',
-        scss: src + 'scss/**/*.scss',
-        images: src + 'images/**/*.*',
-        html: src + '**/*.html',
-        bower: 'bower_components/**/*.*',
-        scssMain: src + 'scss/main.scss',
-        files: [
-            // src +'browserconfig.xml',
-            // src + 'manifest.json',
-            src + '.htaccess'
+        bourbon: 'node_modules/bourbon/app/assets/stylesheets',
+        neat: 'node_modules/bourbon-neat/app/assets/stylesheets',
+        scss_base: 'node_modules/scss-base/src',
+
+        tests_app: 'test/app/**/*.spec.js',
+        tests_api: 'test/api/**/*.php',
+
+        ts: 'src/app/**/*.ts',
+        html: [
+            'src/**/*.html',
+            'src/.htaccess'
         ],
-        php: [
-            'vendor/autoload.php',
-            'vendor/composer/**/*.*',
-            'vendor/firebase/**/*.*',
-            'vendor/gabordemooij/**/*.*',
-            'vendor/ircmaxell/**/*.*',
-            'vendor/slim/**/*.*',
-            'vendor/cebe/**/*.*'
-        ],
+        scss: 'src/scss/**/*.scss',
+        scssMain: 'src/scss/main.scss',
         api: [
-            src + 'api/**/**.*',
-            src + 'api/.htaccess'
+            'src/api/**/*.*',
+            'src/api/.htaccess',
+            '!src/api/composer.*'
         ]
     };
 
-gulp.task('clean', function() {
-    return del(dist);
+gulp.task('clean', () => {
+    return del([
+        'dist',
+        'build',
+        'tests.db',
+        '.coverrun',
+        '.coverdata',
+        'api-coverage',
+        'coverage.html'
+    ]);
 });
 
-gulp.task('lint', ['lintJs', 'lintScss']);
-
-gulp.task('lintJs', function() {
-    return gulp.src(paths.js)
-        .pipe(jsLint())
-        .pipe(jsLint.reporter(jsLintRep));
+gulp.task('html', () => {
+    return gulp.src('src/**/**.html')
+        .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('lintScss', function() {
+gulp.task('fonts', () => {
+    return gulp.src('src/fonts/fontello.*')
+        .pipe(gulp.dest('dist/css/fonts/'));
+});
+
+gulp.task('vendor', () => {
+    return gulp.src([
+            'node_modules/core-js/client/shim.js',
+            'node_modules/zone.js/dist/zone.js',
+            'node_modules/reflect-metadata/Reflect.js',
+            'node_modules/marked/lib/marked.js'
+        ])
+        .pipe(concat('vendor.js'))
+        .pipe(gulp.dest('dist/js/'));
+});
+
+gulp.task('system-build', [ 'tsc' ], () => {
+    var builder = new SystemBuilder();
+
+    return builder.loadConfig('system.config.js')
+        .then(() => builder.buildStatic('app', 'dist/js/bundle.js'))
+        .then(() => del('build'));
+});
+
+gulp.task('tsc', () => {
+    del('build');
+
+    return gulp.src(paths.ts)
+        .pipe(tsProject())
+        .pipe(gulp.dest('build/'));
+});
+
+gulp.task('api', () => {
+    return gulp.src(paths.api)
+        .pipe(gulp.dest('dist/api/'));
+});
+
+gulp.task('scss-lint', function() {
     return gulp.src(paths.scss)
         .pipe(scssLint({ config: 'lint.yml' }));
 });
 
-gulp.task('vendor', function() {
-    var cssFiles = mainFiles().ext('css').files;
-    cssFiles.push(fa.css);
-    cssFiles.push(hljs);
-
-    var js = gulp.src(mainFiles().ext('js').files)
-        .pipe(concat('vendor.js'))
-        .pipe(gulp.dest(dist + 'lib/'));
-
-    var css = gulp.src(cssFiles)
-        .pipe(concat('vendor.css'))
-        .pipe(gulp.dest(dist + 'lib/'));
-
-    var fonts = gulp.src(fa.fonts)
-        .pipe(gulp.dest(dist + 'fonts/'));
-
-    var merged = merge(js, css);
-    merged.add(fonts);
-
-    return merged;
-});
-
-gulp.task('minify', function() {
-    // Minify vendor.js and vendor.css
-    var vcss = gulp.src(dist + 'lib/vendor.css')
-        .pipe(cssMinify())
-        .pipe(gulp.dest(dist + 'lib/'));
-    var vjs = gulp.src(dist + 'lib/vendor.js')
-        .pipe(jsMinify({ preserveComments: 'some'}))
-        .pipe(gulp.dest(dist + 'lib/'));
-
-    // Minify project styles and scripts
-    var css = gulp.src(dist + 'css/styles.css')
-        .pipe(cssMinify())
-        .pipe(gulp.dest(dist + 'css/'));
-    var js = gulp.src(dist + 'js/app.js')
-        .pipe(jsMinify({ preserveComments: 'some'}))
-        .pipe(gulp.dest(dist + 'js/'));
-
-    var merged = merge(vcss, vjs);
-    merged.add(css);
-    merged.add(js);
-
-    return merged;
-});
-
-gulp.task('styles', function() {
-    return sass(paths.scssMain,
-            {
-                precision: 10,
-                loadPath: [
-                    bourbon,
-                    neat
-                ]
-            })
+gulp.task('scss', () => {
+    return gulp.src(paths.scssMain)
+        .pipe(sass({
+            precision: 10,
+            includePaths: [
+                paths.bourbon,
+                paths.neat,
+                paths.scss_base
+            ]
+        }))
         .pipe(concat('styles.css'))
         .pipe(cssPrefixer())
-        .pipe(gulp.dest(dist + 'css/'));
+        .pipe(gulp.dest('dist/css/'));
 });
 
-gulp.task('scripts', function() {
-    return gulp.src(paths.js)
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(dist + 'js/'));
+gulp.task('test', ['test-app', 'test-api']);
+
+gulp.task('test-app', ['tsc'], () => {
+    return gulp.src(paths.tests_app)
+        .pipe(mocha({
+            require: ['./test/app/mocks.js']
+        }));
 });
 
-gulp.task('html', function() {
-    return gulp.src(paths.html)
-        .pipe(gulp.dest(dist));
+gulp.task('coverage', ['tsc'], () => {
+    return gulp.src(paths.tests_app)
+        .pipe(coverage.instrument({
+            pattern: ['build/**/*.js']
+        }))
+        .pipe(mocha({
+            require: ['./test/app/mocks.js']
+        }))
+        .pipe(coverage.gather())
+        .pipe(coverage.format())
+        .pipe(gulp.dest('./'));
 });
 
-gulp.task('files', function() {
-    return gulp.src(paths.files)
-        .pipe(gulp.dest(dist));
+gulp.task('api-test-db', () => {
+    del('tests.db');
+    touch('tests.db');
+    fs.chmod('tests.db', '0666');
 });
 
-gulp.task('images', function() {
-    return gulp.src(paths.images)
-        .pipe(imageMin())
-        .pipe(gulp.dest(dist + 'images/'));
+gulp.task('test-api', ['api-test-db'], () => {
+    del('tests.log');
+
+    return gulp.src('test/api/phpunit.xml')
+        .pipe(phpunit('./src/api/vendor/phpunit/phpunit/phpunit'));
 });
 
-gulp.task('php', function() {
-    var vendor = gulp.src(paths.php, { base: 'vendor' })
-        .pipe(gulp.dest(dist + 'api/vendor/'));
+gulp.task('test-api-single', ['api-test-db'], () => {
+    del('tests.log');
 
-    var api = gulp.src(paths.api)
-        .pipe(gulp.dest(dist + 'api/'));
-
-    return merge(vendor, api);
+    return gulp.src('test/api/phpunit.xml')
+        .pipe(phpunit('./src/api/vendor/phpunit/phpunit/phpunit',
+            { group: 'single' }));
 });
 
-gulp.task('apiChmod', ['php'],  function() {
-    return fs.chmodSync(dist + 'api', 0777);
+gulp.task('minify', () => {
+    var js = gulp.src('dist/js/**/*.js')
+        .pipe(jsMinify())
+        .pipe(gulp.dest('dist/js/'));
+
+    var css = gulp.src('dist/css/styles.css')
+        .pipe(cssMinify())
+        .pipe(gulp.dest('dist/css/'));
+
+    return merge(js, css);
 });
 
-gulp.task('rssMkdir', ['php'],  function() {
-    del.sync(dist + 'rss');
-    fs.mkdirSync(dist + 'rss');
-
-    return fs.chmodSync(dist + 'rss', 0777);
-});
-
-gulp.task('fbFlo', ['cleanupFbFlo'], function() {
-    if (node) {
-        node.kill();
-    }
-
-    node = spawn('node', ['flo.js'], {stdio: 'inherit'});
-    node.on('close', function() {
-        console.log('Exiting fb-flo.');
+gulp.task('composer', () => {
+    return composer({
+        'working-dir': 'src/api'
     });
 });
 
-gulp.task('cleanupFbFlo', function() {
-    var fbFloRegex = /node\s_(\d+)\s/g,
-        fbFloPs = exec('ps aux | grep "node flo.js"');
-
-    fbFloPs.stdout.on('data', function(data) {
-        data = data.split('\n');
-        if (data) {
-            var tmp;
-            for (var i = 0; i < data.length; ++i) {
-                tmp = data[i].split('  ');
-                exec('kill -9 ' + tmp[2]);
-                console.log('Killed orphaned fb-flo process.');
-            }
-        }
-    });
-});
-
-gulp.task('watch', function() {
-    var watchJs = gulp.watch(paths.js, ['lintJs', 'scripts']),
-        watchScss = gulp.watch(paths.scss, ['lintScss', 'styles']),
-        watchHtml = gulp.watch(paths.html, ['html']),
-        watchImages = gulp.watch(paths.images, ['images']),
-        watchFiles = gulp.watch(paths.files, ['files']),
-        watchVendor = gulp.watch(paths.bower, ['vendor']),
-        watchPhp = gulp.watch(paths.api, ['php']),
+gulp.task('watch', () => {
+    var watchTs = gulp.watch(paths.ts, [ 'system-build' ]),
+        watchScss = gulp.watch(paths.scss, [ 'scss-lint', 'scss' ]),
+        watchHtml = gulp.watch(paths.html, [ 'html' ]),
+        watchApi = gulp.watch(paths.api),
 
         onChanged = function(event) {
             console.log('File ' + event.path + ' was ' + event.type + '. Running tasks...');
         };
 
-    gulp.start('fbFlo');
-
-    watchJs.on('change', onChanged);
+    watchTs.on('change', onChanged);
     watchScss.on('change', onChanged);
     watchHtml.on('change', onChanged);
-    watchImages.on('change', onChanged);
-    watchFiles.on('change', onChanged);
-    watchVendor.on('change', onChanged);
-    watchPhp.on('change', onChanged);
+    watchApi.on('change', onChanged);
+});
+
+gulp.task('watchtests', () => {
+    var watchTs = gulp.watch(paths.ts, [ 'test-app' ]),
+        watchTests = gulp.watch(paths.tests_app, [ 'test-run' ]),
+
+    onChanged = function(event) {
+        console.log('File ' + event.path + ' was ' + event.type + '. Running tasks...');
+    };
+
+    watchTs.on('change', onChanged);
+    watchTests.on('change', onChanged);
 });
 
 gulp.task('default', [
-        'lint',
-        'vendor',
-        'styles',
-        'scripts',
-        'files',
-        'html',
-        'images',
-        'php',
-        'apiChmod',
-        'rssMkdir']);
+    'vendor',
+    'system-build',
+    'html',
+    'scss-lint',
+    'scss',
+    'fonts',
+    'api'
+]);
+
