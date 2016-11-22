@@ -1,0 +1,16 @@
+{
+    "require": {
+        "monolog/monolog": "^1.18",
+        "gabordemooij/redbean": "^4.3",
+        "slim/slim": "^3.3",
+        "firebase/php-jwt": "^3.0",
+        "phpunit/phpunit": "^4.8",
+        "cebe/markdown": "^1.1"
+    },
+
+    "authors": [
+        { "name": "Matthew Ross" }
+    ],
+
+    "minimum-stability": "stable"
+}
