@@ -7,10 +7,16 @@
         "phpunit/phpunit": "^4.8",
         "cebe/markdown": "^1.1"
     },
-
+    "license": "MIT",
     "authors": [
-        { "name": "Matthew Ross" }
+        {
+            "name": "Matthew Ross",
+            "email": "root@matthewross.me",
+            "homepage": "https://matthewross.me",
+            "role": "Developer"
+        }
     ],
-
-    "minimum-stability": "stable"
+    "autoload": {
+        "classmap": [ "controllers" ]
+    }
 }

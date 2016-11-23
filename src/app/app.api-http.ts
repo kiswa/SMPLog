@@ -85,9 +85,6 @@ export class ApiHttp extends Http {
     intercept(observable: Observable<Response>): Observable<Response> {
         return observable
             .map((res: Response) => {
-                let response: ApiResponse = res.json();
-                localStorage.setItem(this.JWT_KEY, response.data[0]);
-
                 return res;
             })
             .catch((err, source) => {
