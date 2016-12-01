@@ -1,0 +1,62 @@
+<header>
+    <div class="left" *ngIf="showHomeLink">
+        <a href="">
+            <i class="icon icon-left-open"></i>
+            Home
+        </a>
+    </div>
+    <div class="right">
+        <a href="rss/rss.xml" target="_self">
+            <i class="icon icon-rss"></i>
+            Subscribe
+        </a>
+    </div>
+    <h1 *ngIf="showTitle">{{ details.title }}</h1>
+</header>
+
+<article class="main">
+    <section class="post"> <!-- *ngFor="let post of paging.visiblePosts" -->
+        <h2><a class="title" href="posts/post.slug">post.title</a></h2>
+        <span>post.short_text</span>
+        <p class="byline">
+            <img class="author"
+                src="authors[post.user_id].image"
+                alt="Author Image"> <!-- *ngIf="{{ authors[post.user_id].image.length }}" -->
+            <a href="authors/post.user_id">authors[post.user_id].name</a> |
+            <span class="date">post.publish_date</span>
+        </p>
+    </section>
+
+    <section class="post"><!-- *ngIf="posts.length === 0" -->
+        <h2>No Posts Here Yet</h2>
+        <p>Come back again soon, and there will be plenty of content to enjoy.</p>
+    </section>
+
+    <section class="pagination" *ngIf="paging.total">
+        <p class="left" *ngIf="paging.showNewer">
+            <a href="javascript:" (click)="prevPage">
+                <i class="icon icon-left-open"></i>
+                Newer Posts
+            </a>
+        </p>
+        <p class="right" *ngIf="paging.showOlder">
+            <a href="javascript:" (click)="nextPage">
+                Older Posts
+                <i class="icon icon-right-open"></i>
+            </a>
+        </p>
+        <p>Page {{ paging.current }} of {{ paging.total }}</p>
+    </section>
+</article>
+
+<footer>
+    <p class="left">
+        <a href="">{{ details.title }}</a>
+        Copyright <i class="icon icon-copyright"></i> {{ currentYear }}.
+    </p>
+    <p class="right">
+        Published with
+        <a href="https://github.com/kiswa/SMPLog" target="blank">
+            <i class="icon icon-github-circled"></i> SMPLog</a>.
+    </p>
+</footer>

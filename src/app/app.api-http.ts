@@ -16,7 +16,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { ApiResponse } from './shared/index';
+import { ApiResponse } from './admin/shared/index';
 
 export const API_HTTP_PROVIDERS = [
     {

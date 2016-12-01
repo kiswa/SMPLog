@@ -1,5 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard } from './admin/shared/index';
+import { Blog } from './blog/blog.component';
+
 const ROUTES: Array<any> = []; /*Routes = [
     {
         path: '',

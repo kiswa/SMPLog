@@ -7,7 +7,7 @@ import { APP_ROUTING, ROUTE_COMPONENTS } from './app.routes';
 import { AppComponent } from './app.component';
 import { API_HTTP_PROVIDERS } from './app.api-http';
 
-// TODO: Insert app imports
+import { Blog } from './blog/blog.component';
 
 @NgModule({
     imports: [
@@ -22,6 +22,7 @@ import { API_HTTP_PROVIDERS } from './app.api-http';
     ],
     declarations: [
         AppComponent,
+        Blog,
         ...ROUTE_COMPONENTS
     ],
     bootstrap: [ AppComponent ]
