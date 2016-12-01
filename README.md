@@ -99,12 +99,21 @@ This project was made possible by the following open source projects:
 
 Because I find it interesting, even if it's not a good metric.
 
+`cloc --exclude-dir=vendor --exclude-ext=json src/`
+
 |Language                 |  Files       | Blank      |   Comment    |  Code  |
 |-------------------------|:------------:|:----------:|:------------:|:------:|
-|Javascript               |   16         |  244       |      1       |  1049  |
-|SASS                     |    8         |  153       |      1       |   711  |
-|PHP                      |    9         |  192       |     16       |   601  |
-|HTML                     |   10         |   16       |      0       |   291  |
-|**SUM:**                 | **43**       |**605**     |   **18**     |**2652**|
+|SASS                     |    8         |  157       |      0       |   711  |
+|PHP                      |    9         |  249       |     13       |   601  |
+|TypeScript               |   17         |   78       |     48       |   275  |
+|HTML                     |    4         |   13       |      1       |   291  |
+|**SUM:**                 | **38**       |**497**     |   **62**     |**1792**|
 
-Last updated August 22, 2015
+`cloc --exclude-ext=xml test/`
+
+|Language                 |  Files       | Blank      |   Comment    |  Code  |
+|-------------------------|:------------:|:----------:|:------------:|:------:|
+|PHP                      |    6         |  379       |     16       |  1000  |
+|**SUM:**                 |  **6**       |**379**     |   **16**     |**1000**|
+
+Last updated Nov. 13, 2016
