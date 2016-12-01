@@ -4,26 +4,7 @@ body {
     line-height: 1.8em;
 }
 
-a {
-    background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==);
-    background-position: left 1.1em;
-    background-repeat: repeat-x;
-    color: $font-color;
-    text-decoration: none;
-    transition: all .2s ease-in-out;
-
-    &:hover,
-    &:active {
-        background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
-    }
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid lighten($font-color, 70%);
-}
-
-body>header {
+header {
     font-size: .8em;
     left: 0;
     position: fixed;
@@ -34,7 +15,6 @@ body>header {
     .right {
         margin: 2em 1em;
     }
-
 
     a {
         background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
@@ -51,7 +31,7 @@ body>header {
     }
 }
 
-main {
+.main {
     background-color: #fff;
     box-shadow: 0 0 35px 0 rgba(0, 0, 0, .25);
     margin-bottom: 3em;
@@ -71,7 +51,7 @@ main {
     }
 }
 
-body>footer {
+footer {
     bottom: 0;
     color: lighten($font-color, 55%);
     font-size: .8em;
