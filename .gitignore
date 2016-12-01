@@ -1,5 +1,11 @@
-bower_components
-node_modules
+.coverdata
+.coverrun
+api-coverage
+build
 dist
-.sass-cache
-vendor
+node_modules
+src/api/vendor
+coverage.html
+tests.db
+tests.log
+
