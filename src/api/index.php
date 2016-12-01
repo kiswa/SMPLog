@@ -21,7 +21,7 @@ $app->get   ('/admin/authors/{id}',         'Admin:getAuthor');
 $app->post  ('/admin/authors/{id}',         'Admin:updateAuthor');
 $app->delete('/admin/authors/{id}',         'Admin:removeAuthor');
 
-$app->post  ('/admin/details',              'Admin:updateBlogData');
+$app->post  ('/admin/details',              'Admin:updateDetails');
 
 $app->get   ('/admin/posts',                'Admin:getPosts'); // (by requesting author/user)
 $app->post  ('/admin/posts',                'Admin:addPost');  // (needs to handle publish case)

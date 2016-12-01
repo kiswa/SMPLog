@@ -15,7 +15,7 @@ abstract class BaseController {
         return $response->withStatus($status)->withJson($this->apiJson);
     }
 
-    public function secureRoute($requset, $response) {
+    public function secureRoute($request, $response) {
         $response = Auth::ValidateToken($request, $response);
         $status = $response->getStatusCode();
 

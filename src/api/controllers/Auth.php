@@ -47,6 +47,8 @@ class Auth extends BaseController {
             return $response->withStatus(401);
         }
 
+        $jwt = $request->getHeader('Authorization')[0];
+
         if ($user->active_token !== $jwt) {
             $user->active_token = '';
             R::store($user);
@@ -95,9 +97,6 @@ class Auth extends BaseController {
         $user->last_login = time();
         R::store($user);
 
-        $this->dbLogger->logChange($this->container, $user->id,
-            $user->username . ' logged in', null, null, 'user', $user->id);
-
         $this->apiJson->setSuccess();
         $this->apiJson->addData($this->sanitizeUser($user));
 
@@ -124,9 +123,6 @@ class Auth extends BaseController {
             $user->active_token = '';
             R::store($user);
         }
-
-        $this->dbLogger->logChange($this->container, $user->id,
-            $user->username . ' logged out', null, null, 'user', $user->id);
 
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success', 'You have been logged out.');
@@ -163,9 +159,8 @@ class Auth extends BaseController {
 
     private function sanitizeUser($user) {
         unset($user->password_hash);
-        unset($user->active_token);
 
-        return $user;
+        return $user->export();
     }
 
     private static function getJwtPayload($jwt) {
