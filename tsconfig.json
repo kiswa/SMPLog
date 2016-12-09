@@ -10,6 +10,10 @@
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "typeRoots": [ "node_modules/@types" ],
-        "types": [ "core-js" ]
+        "types": [
+            "core-js",
+            "marked",
+            "highlight.js"
+        ]
     }
 }

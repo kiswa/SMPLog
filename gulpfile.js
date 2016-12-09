@@ -20,6 +20,7 @@ let gulp = require('gulp'),
 
     scssLint = require('gulp-scss-lint'),
     sass = require('gulp-sass'),
+    cssImport = require('gulp-cssimport'),
     cssPrefixer = require('gulp-autoprefixer'),
     cssMinify = require('gulp-cssnano'),
 
@@ -58,7 +59,10 @@ gulp.task('clean', () => {
 });
 
 gulp.task('html', () => {
-    return gulp.src('src/**/**.html')
+    return gulp.src([
+            'src/**/**.html',
+            'src/.htaccess'
+        ])
         .pipe(gulp.dest('dist/'));
 });
 
@@ -72,7 +76,8 @@ gulp.task('vendor', () => {
             'node_modules/core-js/client/shim.js',
             'node_modules/zone.js/dist/zone.js',
             'node_modules/reflect-metadata/Reflect.js',
-            'node_modules/marked/lib/marked.js'
+            'node_modules/marked/lib/marked.js',
+            'src/lib/highlight.pack.js'
         ])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('dist/js/'));
@@ -115,6 +120,7 @@ gulp.task('scss', () => {
             ]
         }))
         .pipe(concat('styles.css'))
+        .pipe(cssImport({}))
         .pipe(cssPrefixer())
         .pipe(gulp.dest('dist/css/'));
 });
