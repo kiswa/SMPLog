@@ -17,12 +17,14 @@ class Posts extends BaseController {
     }
 
     public function getPost($request, $response, $args) {
-        $id = (int) $args['id'];
-        $post = R::load('post', $id);
+        $route = $request->getAttribute('route');
+        $slug = $route->getArgument('slug');
+
+        $post = array_shift(R::find('post', ' slug = ? ', [ $slug ]));
 
         if (!$post->id) {
             $this->apiJson->addAlert('error',
-                'No post found for id ' . $id . '.');
+                'No post found for slug ' . $slug . '.');
             return $this->jsonResponse($response);
         }
 

@@ -62,9 +62,6 @@ class AuthorsTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Anonymous', $response->data[0]['name']);
     }
 
-    /**
-     * @group single
-     */
     public function testGetPosts() {
         Auth::CreateInitialAdmin(new ContainerMock());
 

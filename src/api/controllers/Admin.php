@@ -115,6 +115,13 @@ class Admin extends BaseController {
         $this->loadUserData($author, $data);
 
         if (isset($data->password)) {
+            if (!password_verify($data->old_password,
+                                 $author->password_hash)) {
+                $this->apiJson->addAlert('error',
+                    'Invalid password.');
+                return $this->jsonResponse($response);
+            }
+
             $author->password_hash =
                 password_hash($data->password, PASSWORD_BCRYPT);
         }
@@ -152,6 +159,7 @@ class Admin extends BaseController {
 
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success', 'User ' . $username . ' removed.');
+        $this->apiJson->addData($this->getAuthorsCleaned(true));
 
         return $this->jsonResponse($response);
     }
@@ -196,20 +204,10 @@ class Admin extends BaseController {
         }
 
         $user = Auth::GetUser($request);
-        $posts = [];
-
-        if ($user->is_admin) {
-            $posts = R::findAll('post');
-        } else {
-            $posts = R::findAll('post', 'user_id = ?', [ $user->id ]);
-        }
-
-        foreach($posts as $key => $post) {
-            $posts[$key] = $post->exportAll();
-        }
+        $data = $this->getUserPosts($user->id);
 
         $this->apiJson->setSuccess();
-        $this->apiJson->addData($posts);
+        $this->apiJson->addData($data);
 
         return $this->jsonResponse($response);
     }
@@ -296,9 +294,12 @@ class Admin extends BaseController {
         $title = $post->title;
         R::trash($post);
 
+        $data = $this->getUserPosts($user->id);
+
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
             'Post ' . $title . ' removed.');
+        $this->apiJson->addData($data);
 
         return $this->jsonResponse($response);
     }
@@ -328,6 +329,7 @@ class Admin extends BaseController {
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
             'Post ' . $post->title . ' published.');
+        $this->apiJson->addData($post->export());
 
         return $this->jsonResponse($response);
     }
@@ -357,8 +359,20 @@ class Admin extends BaseController {
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
             'Post ' . $post->title . ' unpublished.');
+        $this->apiJson->addData($post->export());
 
         return $this->jsonResponse($response);
+    }
+
+    private function getUserPosts($id) {
+        $posts = R::findAll('post', 'user_id = ?', [ $id ]);
+        $data = [];
+
+        foreach($posts as $post) {
+            $data[] = $post->export();
+        }
+
+        return $data;
     }
 
     private function createUniqueSlug($string) {
@@ -410,6 +424,8 @@ class Admin extends BaseController {
         // Set default values for new user
         $user->is_admin = false;
         $user->is_active = true;
+        $user->name = 'Anonymous';
+        $user->image = '';
         $user->logins = 0;
         $user->last_login = null;
         $user->active_token = null;
@@ -471,11 +487,15 @@ class Admin extends BaseController {
 
         $users = array_diff($users, $toRemove);
 
+        $data = [];
+
         foreach($users as $key => $user) {
-            $users[$key] = $user->export();
+            $user->post_count = count($user->ownPostList);
+
+            $data[] = $user->export();
         }
 
-        return $users;
+        return $data;
     }
 
 }

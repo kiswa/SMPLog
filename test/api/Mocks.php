@@ -65,6 +65,11 @@ class RequestMock {
     public $hasHeader = true;
     public $header = null;
     public $throwInHeader = false;
+    public $routeMock = null;
+
+    public function __construct($arg = '') {
+        $this->routeMock = new RouteMock($arg);
+    }
 
     public function getBody() {
         if ($this->invalidPayload) {
@@ -93,6 +98,24 @@ class RequestMock {
 
         return $header;
     }
+
+    public function getAttribute($arg) {
+        return $this->routeMock;
+    }
+
+}
+
+class RouteMock {
+    public $argument;
+
+    public function __construct($arg = '') {
+        $this->argument = $arg;
+    }
+
+    public function getArgument() {
+        return $this->argument;
+    }
+
 }
 
 class ResponseMock {

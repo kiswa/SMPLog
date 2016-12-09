@@ -298,17 +298,42 @@ class AdminTest extends PHPUnit_Framework_TestCase {
             $response->alerts[0]['text']);
     }
 
+    public function testUpdateAuthorBadPassword() {
+        $jwt = DataMock::getJwt();
+        $this->setAdminToken($jwt);
+
+        $update = new stdClass();
+        $update->password = 'changed';
+        $update->old_password = 'not_it';
+
+        $request = new RequestMock();
+        $request->header = [$jwt];
+        $request->payload = $update;
+
+        $args = [];
+        $args['id'] = 1;
+
+        $response = $this->admin->updateAuthor($request,
+            new ResponseMock(), $args);
+
+        $this->assertEquals('failure', $response->status);
+        $this->assertEquals('Invalid password.',
+            $response->alerts[0]['text']);
+    }
+
     public function testUpdateAuthorValid() {
         $jwt = DataMock::getJwt();
         $this->setAdminToken($jwt);
 
         $user = R::dispense('user');
         $user->username = 'changeme';
+        $user->password_hash = password_hash('admin', PASSWORD_BCRYPT);
         R::store($user);
 
         $update = new stdClass();
         $update->username = 'updated';
         $update->password = 'changed';
+        $update->old_password = 'admin';
 
         $request = new RequestMock();
         $request->header = [$jwt];

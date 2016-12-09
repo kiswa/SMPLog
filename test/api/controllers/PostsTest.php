@@ -33,23 +33,25 @@ class PostsTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetPost() {
-        $args = [];
-        $args['id'] = 1;
+        $request = new RequestMock();
 
-        $response = $this->posts->getPost(new RequestMock(),
-            new ResponseMock(), $args);
+        $response = $this->posts->getPost($request,
+            new ResponseMock(), null);
 
         $this->assertEquals('failure', $response->status);
-        $this->assertEquals('No post found for id 1.',
+        $this->assertEquals('No post found for slug .',
             $response->alerts[0]['text']);
 
         $post = R::dispense('post');
         $post->title = 'test';
+        $post->slug = 'test';
         R::store($post);
 
+        $request = new RequestMock('test');
+
         $this->posts = new Posts(new ContainerMock());
-        $response = $this->posts->getPost(new RequestMock(),
-            new ResponseMock(), $args);
+        $response = $this->posts->getPost($request,
+            new ResponseMock(), null);
 
         $this->assertEquals('success', $response->status);
         $this->assertEquals('test', $response->data[0]['title']);

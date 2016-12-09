@@ -19,18 +19,16 @@ class DetailsTest extends PHPUnit_Framework_TestCase {
         $this->details = new Details(new ContainerMock());
     }
 
-    public function testGetDetailsInvalid() {
+    public function testGetDetailsDefault() {
         $response = $this->details->getDetails(new RequestMock(),
             new ResponseMock(), null);
 
-        $this->assertEquals('failure', $response->status);
-        $this->assertEquals('No blog details found.',
-            $response->alerts[0]['text']);
+        $this->assertEquals('success', $response->status);
+        $this->assertEquals('SMPLog', $response->data[0]['name']);
     }
 
-    public function testGetDetailsValid() {
+    public function testGetDetailsCustom() {
         $details = R::dispense('detail');
-        $details->name = 'Test Blog';
         $details->desc = 'A test blog.';
         $details->image = 'some url';
         R::store($details);
@@ -39,7 +37,8 @@ class DetailsTest extends PHPUnit_Framework_TestCase {
             new ResponseMock(), null);
 
         $this->assertEquals('success', $response->status);
-        $this->assertEquals('Test Blog', $response->data[0]['name']);
+        $this->assertEquals('SMPLog', $response->data[0]['name']);
+        $this->assertEquals('A test blog.', $response->data[0]['desc']);
     }
 
 }
