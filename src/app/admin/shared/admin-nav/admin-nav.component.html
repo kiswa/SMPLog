@@ -1,0 +1,25 @@
+<header>
+    <h1>SMPLog - Admin</h1>
+</header>
+
+<nav class="admin-nav">
+    <ul>
+        <li>
+            <a href="javscript:" [ngClass]="{ active: page === 'dashboard' }"
+                (click)="navigateTo('dash')">DashBoard</a>
+        </li>
+        <li>
+            <a href="javscript:" [ngClass]="{ active: page === 'post' }"
+                (click)="navigateTo('post')">New Post</a>
+        </li>
+        <li *ngIf="page === 'edit'">
+            <a href="javscript:" [ngClass]="{ active: page === 'edit' }">
+                Edit Post
+            </a>
+        </li>
+        <li>
+            <a routerLink="/admin" (click)="logout()">Log Out</a>
+        </li>
+    </ul>
+</nav>
+

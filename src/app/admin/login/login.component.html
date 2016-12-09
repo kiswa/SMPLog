@@ -1,0 +1,26 @@
+<header>
+    <h1>SMPLog - Admin</h1>
+</header>
+
+<article class="login">
+    <section>
+        <form name="login">
+            <label>
+                Username: &nbsp;
+                <input type="text" name="username" [(ngModel)]="username" autofocus>
+            </label>
+            <label>
+                Password: &nbsp;
+                <input type="password" name="password" [(ngModel)]="password">
+            </label>
+            <label class="center">
+                Remember Me
+                <input type="checkbox" name="remember" [(ngModel)]="remember">
+            </label>
+            <button type="submit" class="flat"
+                (click)="login()" [disabled]="isSubmitted">Log In</button>
+        </form>
+    </section>
+</article>
+
+

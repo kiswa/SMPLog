@@ -16,19 +16,20 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { ApiResponse } from './admin/shared/index';
+import { ApiResponse } from './admin/index';
 
 export const API_HTTP_PROVIDERS = [
     {
         provide: Http,
         useFactory: (xhrBackend: XHRBackend, requestOptions: RequestOptions,
-                router: Router) => new ApiHttp(xhrBackend, requestOptions, router),
+            router: Router) =>
+                new ApiHttp(xhrBackend, requestOptions, router),
         deps: [XHRBackend, RequestOptions, Router]
     }
 ];
 
 export class ApiHttp extends Http {
-    private JWT_KEY = 'taskboard.jwt';
+    private JWT_KEY = 'smplog.jwt';
 
     constructor(backend: ConnectionBackend, defaultOptions: RequestOptions,
             private router: Router) {
@@ -63,7 +64,8 @@ export class ApiHttp extends Http {
             this.getRequestOptionArgs(options)));
     }
 
-    getRequestOptionArgs(options?: RequestOptionsArgs, body?: string): RequestOptionsArgs {
+    getRequestOptionArgs(options?: RequestOptionsArgs,
+            body?: string): RequestOptionsArgs {
         if (!options) {
             options = new RequestOptions();
         }
@@ -85,6 +87,11 @@ export class ApiHttp extends Http {
     intercept(observable: Observable<Response>): Observable<Response> {
         return observable
             .map((res: Response) => {
+                if (res.url.indexOf('login') !== -1) {
+                    let response: ApiResponse = res.json();
+                    localStorage.setItem(this.JWT_KEY, response.data[0].active_token);
+                }
+
                 return res;
             })
             .catch((err, source) => {
@@ -92,7 +99,7 @@ export class ApiHttp extends Http {
                 // url to string in case it is null.
                 if ((err.status === 401 || err.status === 400) &&
                         (err.url + '').indexOf('login') === -1) {
-                    this.router.navigate(['']);
+                    this.router.navigate(['/admin']);
                     localStorage.removeItem(this.JWT_KEY);
                 }
 

@@ -1,0 +1,33 @@
+<smpl-nav page="{{ isEdit ? 'edit' : 'post' }}"></smpl-nav>
+
+<article class="editor">
+    <form class="left">
+        <h2>Write</h2>
+
+        <input type="text" name="title"
+            (input)="updateMarkdown()"
+            [(ngModel)]="title">
+        <textarea name="text"
+            (input)="updateMarkdown()"
+            [(ngModel)]="text"></textarea>
+
+        <button class="flat">
+            <i class="icon icon-floppy"></i> Save
+        </button>
+        <button class="flat" *ngIf="isPublished">
+            <i class="icon icon-ccw"></i> Unpublish
+        </button>
+        <button class="flat" *ngIf="!isPublished">
+            <i class="icon icon-export"></i> Publish
+        </button>
+    </form>
+
+    <article class="right">
+        <h2>Preview</h2>
+
+        <div class="preview">
+            <div class="container" [innerHtml]="convertedMarkdown"></div>
+        </div>
+    </article>
+</article>
+

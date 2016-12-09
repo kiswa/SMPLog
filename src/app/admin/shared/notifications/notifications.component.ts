@@ -5,16 +5,16 @@ import { NotificationsService } from './notifications.service';
 
 @Component({
     selector: 'smpl-notifications',
-    templateUrl: 'app/shared/notifications/notifications.component.html'
+    templateUrl: 'app/admin/shared/notifications/notifications.component.html'
 })
 export class Notifications {
-    private notes: Notification[];
+    private notes: Array<Notification>;
 
     constructor(private notifications: NotificationsService) {
-        this.notes = new Array<Notification>();
+        this.notes = [];
 
         notifications.noteAdded
-            .subscribe(note => {
+            .subscribe((note: Notification) => {
                 this.notes.push(note);
                 setTimeout(() => { this.hide.bind(this)(note) }, 3000);
             });

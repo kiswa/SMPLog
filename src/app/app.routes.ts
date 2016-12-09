@@ -1,28 +1,22 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './admin/shared/index';
 import { Blog } from './blog/blog.component';
+import {
+    AuthGuard,
+    Login,
+    Dashboard,
+    Editor
+} from './admin/index';
 
-const ROUTES: Array<any> = []; /*Routes = [
-    {
-        path: '',
-        component: Home
-    },
-    {
-        path: 'posts/:slug',
-        component: Posts
-    },
-    {
-        path: 'authors/:id',
-        component: Authors
-    },
-    {
-        path: 'admin',
-        component: Login
-    },
+const ROUTES: Routes = [
     {
         path: 'admin/dash',
         component: Dashboard,
+        canActivate: [ AuthGuard ]
+    },
+    {
+        path: 'admin/post/:slug',
+        component: Editor,
         canActivate: [ AuthGuard ]
     },
     {
@@ -31,19 +25,28 @@ const ROUTES: Array<any> = []; /*Routes = [
         canActivate: [ AuthGuard ]
     },
     {
-        path: 'admin/post/:slug',
-        component: Editor,
-        canActivate: [ AuthGuard ]
+        path: 'admin',
+        component: Login,
+    },
+    // {
+    //     path: 'posts/:slug',
+    //     component: Posts
+    // },
+    // {
+    //     path: 'authors/:id',
+    //     component: Authors
+    // },
+    {
+        path: '',
+        component: Blog
     }
-];*/
+];
 
 export const ROUTE_COMPONENTS: Array<any> = [
-    /*Home,
-    Posts,
-    Authors,
+    Blog,
     Login,
     Dashboard,
-    Editor*/
+    Editor
 ];
 
 export const APP_ROUTING = RouterModule.forRoot(ROUTES);

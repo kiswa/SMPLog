@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'blog-component',
+    selector: 'smpl-blog',
     templateUrl: 'app/blog/blog.component.html'
 })
 export class Blog {
@@ -18,7 +18,7 @@ export class Blog {
         total: 1,
         showNewer: true,
         showOlder: true,
-        visiblePosts: []
+        visiblePosts: Array<any>()
     };
 
 }
