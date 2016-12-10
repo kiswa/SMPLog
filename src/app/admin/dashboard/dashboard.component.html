@@ -30,7 +30,7 @@
 
             <h2 *ngIf="fullPosts.length > 0">Posts By {{ activeUser.name }}</h2>
 
-            <div class="filters center">
+            <div class="filters center" *ngIf="fullPosts.length">
                 <h3>Post Filters</h3>
                 <label>
                     Sort By:
