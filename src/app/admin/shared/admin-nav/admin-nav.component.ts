@@ -2,13 +2,13 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import {
-    AuthService,
-    ApiResponse,
-    Notification
-} from '../index';
+import { AuthService, } from '../index';
 // Can't import this from the barrel for some reason
 import { NotificationsService } from '../notifications/notifications.service';
+import {
+    ApiResponse,
+    Notification
+} from '../../../shared/index';
 
 @Component({
     selector: 'smpl-nav',

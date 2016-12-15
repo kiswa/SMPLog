@@ -7,7 +7,10 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { ApiResponse, User } from '../index';
+import {
+    ApiResponse,
+    User
+} from '../../../shared/index';
 
 @Injectable()
 export class AuthService {

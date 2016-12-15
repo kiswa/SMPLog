@@ -10,10 +10,11 @@ import {
     ApiResponse,
     Details,
     User
-} from '../../shared/index';
+} from '../shared/index';
 
 @Injectable()
-export class DashboardService {
+export class BlogService {
+    public details: Details;
 
     constructor(private http: Http){
     }
@@ -24,56 +25,32 @@ export class DashboardService {
             .catch(this.getErrorResponse);
     }
 
-    updateDetails(details: Details) {
-        return this.http.post('api/admin/details', details)
+    getPosts() {
+        return this.http.get('api/posts')
             .map(this.getApiResponse)
             .catch(this.getErrorResponse);
     }
 
-    getPosts() {
-        return this.http.get('api/admin/posts')
+    getPost(slug: string) {
+        return this.http.get('api/posts/' + slug)
             .map(this.getApiResponse)
             .catch(this.getErrorResponse);
     }
 
     getAuthors() {
-        return this.http.get('api/admin/authors')
+        return this.http.get('api/authors')
             .map(this.getApiResponse)
             .catch(this.getErrorResponse);
     }
 
-    updateAuthor(author: User) {
-        return this.http.post('api/admin/authors/' + author.id, author)
+    getAuthor(id: number) {
+        return this.http.get('api/authors/' + id)
             .map(this.getApiResponse)
             .catch(this.getErrorResponse);
     }
 
-    addAuthor(author: any) {
-        return this.http.post('api/admin/authors', author)
-            .map(this.getApiResponse)
-            .catch(this.getErrorResponse);
-    }
-
-    removeAuthor(id: number) {
-        return this.http.delete('api/admin/authors/' + id)
-            .map(this.getApiResponse)
-            .catch(this.getErrorResponse);
-    }
-
-    removePost(id: number) {
-        return this.http.delete('api/admin/posts/' + id)
-            .map(this.getApiResponse)
-            .catch(this.getErrorResponse);
-    }
-
-    publishPost(id: number) {
-        return this.http.post('api/admin/posts/' + id + '/publish', {})
-            .map(this.getApiResponse)
-            .catch(this.getErrorResponse);
-    }
-
-    unpublishPost(id: number) {
-        return this.http.post('api/admin/posts/' + id + '/unpublish', {})
+    getPostsByAuthor(id: number) {
+        return this.http.get('api/authors/' + id + '/posts')
             .map(this.getApiResponse)
             .catch(this.getErrorResponse);
     }

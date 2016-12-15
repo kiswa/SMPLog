@@ -1,60 +1,70 @@
-<header>
-    <div class="left" *ngIf="showHomeLink">
-        <a href="">
-            <i class="icon icon-left-open"></i>
-            Home
-        </a>
-    </div>
-    <div class="right">
+<header class="blog-header" [style]="headerStyle">
+    <h1>{{ details.name }}</h1>
+
+    <div class="rss">
         <a href="rss/rss.xml" target="_self">
             <i class="icon icon-rss"></i>
             Subscribe
         </a>
     </div>
-    <h1 *ngIf="showTitle">{{ details.title }}</h1>
 </header>
 
-<article>
-    <section class="post"> <!-- *ngFor="let post of paging.visiblePosts" -->
-        <h2><a class="title" href="posts/post.slug">post.title</a></h2>
-        <span>post.short_text <a href="">testing a link</a></span>
-        <p></p>
+<article class="blog">
+    <section class="post" *ngIf="isLoading">
+        <div class="center">
+            Loading Posts...
+        </div>
+    </section>
+
+    <section class="post" *ngFor="let post of paging.visiblePosts">
+        <h2>
+            <a class="title" [routerLink]="['posts/' + post.slug]">
+                {{ post.title }}
+            </a>
+        </h2>
+
+        <span [innerHtml]="post.short_text"></span>
+
         <p class="byline">
             <img class="author"
-                src="authors[post.user_id].image"
-                alt="Author Image"> <!-- *ngIf="{{ authors[post.user_id].image.length }}" -->
-            <a href="authors/post.user_id">authors[post.user_id].name</a> |
-            <span class="date">post.publish_date</span>
+                src="{{ getAuthor(post.user_id).image }}"
+                alt="Author Image"
+                *ngIf="getAuthor(post.user_id).image.length">
+            <a [routerLink]="['authors/' + post.user_id]">
+                {{ getAuthor(post.user_id).name }}</a> |
+            <span class="date">
+                {{ (post.publish_date * 1000) | date:'fullDate' | uppercase }}
+            </span>
         </p>
     </section>
 
-    <section class="post"><!-- *ngIf="posts.length === 0" -->
+    <section class="post" *ngIf="posts.length === 0 && !isLoading">
         <h2>No Posts Here Yet</h2>
-        <p>Come back again soon, and there will be plenty of content to enjoy.</p>
+        <p>Come back again soon for new content to enjoy.</p>
     </section>
 
-    <section class="pagination" *ngIf="paging.total">
+    <section class="pagination" *ngIf="paging.total > 1">
         <p>
-            <span class="left" *ngIf="paging.showNewer">
-                <a href="javascript:" (click)="prevPage">
-                    <i class="icon icon-left-open"></i>
-                    Newer Posts
-                </a>
-            </span>
             Page {{ paging.current }} of {{ paging.total }}
-            <span class="right" *ngIf="paging.showOlder">
-                <a href="javascript:" (click)="nextPage">
-                    Older Posts
-                    <i class="icon icon-right-open"></i>
-                </a>
-            </span>
         </p>
+        <span class="left" *ngIf="paging.showNewer">
+            <a href="javascript:" (click)="prevPage()">
+                <i class="icon icon-left-open"></i>
+                Newer Posts
+            </a>
+        </span>
+        <span class="right" *ngIf="paging.showOlder">
+            <a href="javascript:" (click)="nextPage()">
+                Older Posts
+                <i class="icon icon-right-open"></i>
+            </a>
+        </span>
     </section>
 </article>
 
 <footer>
     <p class="left">
-        <a href="">{{ details.title }}</a>
+        <a href="">{{ details.name }}</a>
         Copyright <i class="icon icon-copyright"></i> {{ currentYear }}.
     </p>
     <p class="right">
@@ -63,3 +73,4 @@
             <i class="icon icon-github-circled"></i> SMPLog</a>.
     </p>
 </footer>
+

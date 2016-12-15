@@ -1,0 +1,82 @@
+<header class="post-header">
+    <h1>{{ details.name }}</h1>
+
+    <div class="home">
+        <a [routerLink]="['']" target="_self">
+            <i class="icon icon-left-open"></i>
+            Home
+        </a>
+    </div>
+
+    <div class="rss">
+        <a href="rss/rss.xml" target="_self">
+            <i class="icon icon-rss"></i>
+            Subscribe
+        </a>
+    </div>
+</header>
+
+<article class="post-display">
+    <section *ngIf="isLoading">
+        <div class="center">
+            Loading Post...
+        </div>
+    </section>
+
+    <section *ngIf="!isLoading">
+        <h1>{{ post.title }}</h1>
+        <p class="date">
+            Published <span>{{ (post.publish_date * 1000) | date:'fullDate' | uppercase }}</span>
+        </p>
+
+        <section class="post" [innerHtml]="convertedMarkdown"></section>
+
+        <section class="links">
+            <img class="author" src="{{ author.image }}" alt="Author Image"
+                *ngIf="author.image.length">
+            <div class="left">
+                <p class="header">
+                    <a [routerLink]="['/authors/' + author.id]">
+                        {{ author.name }}</a>
+                </p>
+                <p>
+                    Read <a [routerLink]="['/authors/' + author.id]">more
+                    posts</a> from this author.
+                </p>
+            </div>
+            <div class="right center">
+                <p class="header">Share this post</p>
+                <p class="share">
+                    <a href="http://twitter.com/share?url={{ getLink() }}&text={{ post.title }}"
+                        class="twitter" target="_blank">
+                        <i class="icon icon-twitter-squared"></i></a>
+                    <a href="http://reddit.com/submit?url={{ getLink() }}&title={{ post.title }}"
+                        class="reddit" target="_blank">
+                        <i class="icon icon-reddit-squared"></i></a>
+                    <a href="http://www.facebook.com/sharer/sharer.php?u={{ getLink() }}"
+                        class="facebook" target="_blank">
+                        <i class="icon icon-facebook-squared"></i></a>
+                    <a href="https://plus.google.com/share?url={{ getLink() }}"
+                        class="gplus" target="_blank">
+                        <i class="icon icon-gplus-squared"></i></a>
+                    <a href="http://www.linkedin.com/shareArticle?url={{ getLink() }}&title={{ post.title }}"
+                        class="linkedin" target="_blank">
+                        <i class="icon icon-linkedin-squared"></i></a>
+                </p>
+            </div>
+        </section>
+    </section>
+</article>
+
+<footer>
+    <p class="left">
+        <a href="">{{ details.name }}</a>
+        Copyright <i class="icon icon-copyright"></i> {{ currentYear }}.
+    </p>
+    <p class="right">
+        Published with
+        <a href="https://github.com/kiswa/SMPLog" target="blank">
+            <i class="icon icon-github-circled"></i> SMPLog</a>.
+    </p>
+</footer>
+

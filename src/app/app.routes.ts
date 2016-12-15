@@ -1,6 +1,10 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { Blog } from './blog/blog.component';
+import {
+    Blog,
+    Posts,
+    Authors
+} from './blog/index';
 import {
     AuthGuard,
     Login,
@@ -26,24 +30,30 @@ const ROUTES: Routes = [
     },
     {
         path: 'admin',
-        component: Login,
+        component: Login
     },
-    // {
-    //     path: 'posts/:slug',
-    //     component: Posts
-    // },
-    // {
-    //     path: 'authors/:id',
-    //     component: Authors
-    // },
+    {
+        path: 'posts/:slug',
+        component: Posts
+    },
+    {
+        path: 'authors/:id',
+        component: Authors
+    },
     {
         path: '',
+        component: Blog
+    },
+    {
+        path: '**',
         component: Blog
     }
 ];
 
 export const ROUTE_COMPONENTS: Array<any> = [
     Blog,
+    Posts,
+    Authors,
     Login,
     Dashboard,
     Editor

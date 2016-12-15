@@ -4,15 +4,15 @@
     <nav>
         <ul>
             <li>
-                <a href="javascript:" [ngClass]="{ active: tab === 'settings' }"
+                <a [ngClass]="{ active: tab === 'settings' }"
                     (click)="changeTab('settings')">Settings</a>
             </li>
             <li>
-                <a href="javascript:" [ngClass]="{ active: tab === 'posts' }"
+                <a [ngClass]="{ active: tab === 'posts' }"
                     (click)="changeTab('posts')">Posts</a>
             </li>
             <li>
-                <a href="javascript:" [ngClass]="{ active: tab === 'authors' }"
+                <a [ngClass]="{ active: tab === 'authors' }"
                     (click)="changeTab('authors')">Authors</a>
             </li>
         </ul>

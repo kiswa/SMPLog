@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Notification } from '../models/notification.model';
+import { Notification } from '../../../shared/index';
 import { NotificationsService } from './notifications.service';
 
 @Component({

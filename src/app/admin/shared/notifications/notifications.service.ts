@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { Notification } from '../models/notification.model';
+import { Notification } from '../../../shared/index';
 
 @Injectable()
 export class NotificationsService {

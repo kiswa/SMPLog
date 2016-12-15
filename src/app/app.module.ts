@@ -17,6 +17,7 @@ import {
     DashboardService,
     EditorService
 } from './admin/index';
+import { BlogService } from './blog/blog.service';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import {
         Constants,
         NotificationsService,
         DashboardService,
-        EditorService
+        EditorService,
+        BlogService
     ],
     declarations: [
         AppComponent,

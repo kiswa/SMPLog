@@ -6,5 +6,6 @@ export interface Post {
     slug: string;
     is_published: boolean | string;
     publish_date: number;
+    user_id: number;
 }
 

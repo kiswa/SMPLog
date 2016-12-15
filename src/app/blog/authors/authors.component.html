@@ -1,0 +1,53 @@
+<header class="blog-header" [style]="headerStyle">
+    <h1>{{ details.name }}</h1>
+
+    <div class="home">
+        <a [routerLink]="['']" target="_self">
+            <i class="icon icon-left-open"></i>
+            Home
+        </a>
+    </div>
+
+    <div class="rss">
+        <a href="rss/rss.xml" target="_self">
+            <i class="icon icon-rss"></i>
+            Subscribe
+        </a>
+    </div>
+</header>
+
+<article class="authors">
+    <section class="center">
+        <h1>Posts By {{ author.name }}</h1>
+        <img class="author" src="{{ author.image }}"
+            alt="Author Image"
+            *ngIf="author.image && author.image.length">
+            <p>{{ posts.length }} Total</p>
+    </section>
+
+    <section class="post" *ngFor="let post of posts">
+        <h2>
+            <a class="title" [routerLink]="['/posts/' + post.slug]">
+                {{ post.title }}
+            </a>
+        </h2>
+
+        <span class="date">
+            {{ (post.publish_date * 1000) | date:'fullDate' | uppercase }}
+        </span>
+        <span [innerHtml]="post.short_text"></span>
+    </section>
+</article>
+
+<footer>
+    <p class="left">
+        <a href="">{{ details.name }}</a>
+        Copyright <i class="icon icon-copyright"></i> {{ currentYear }}.
+    </p>
+    <p class="right">
+        Published with
+        <a href="https://github.com/kiswa/SMPLog" target="blank">
+            <i class="icon icon-github-circled"></i> SMPLog</a>.
+    </p>
+</footer>
+

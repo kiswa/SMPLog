@@ -4,10 +4,12 @@ import { Title } from '@angular/platform-browser';
 
 import {
     AuthService,
-    ApiResponse,
-    Notification,
     NotificationsService
 } from '../shared/index';
+import {
+    ApiResponse,
+    Notification
+} from '../../shared/index';
 
 @Component({
     selector: 'smpl-login',

@@ -4,13 +4,15 @@ import { Router } from '@angular/router';
 import { DashboardService } from './dashboard.service';
 import {
     AuthService,
-    NotificationsService,
+    NotificationsService
+} from '../shared/index';
+import {
     ApiResponse,
     Notification,
     User,
     Post,
     Details
-} from '../shared/index';
+} from '../../shared/index';
 
 @Component({
     selector: 'smpl-dashboard',
@@ -162,6 +164,10 @@ export class Dashboard implements OnInit {
     }
 
     removePost(id: number) {
+        if (!confirm("This cannot be undone.\nAre you sure?")) {
+            return;
+        }
+
         this.dashService.removePost(id)
             .subscribe((res: ApiResponse) => {
                 this.showNotes(res);
