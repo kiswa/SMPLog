@@ -186,6 +186,13 @@ gulp.task('composer', () => {
     });
 });
 
+gulp.task('rssMkdir', function() {
+    del.sync('dist/rss');
+    fs.mkdirSync('dist/rss');
+
+    return fs.chmodSync('dist/rss', '0777');
+});
+
 gulp.task('watch', () => {
     var watchTs = gulp.watch(paths.ts, [ 'system-build' ]),
         watchScss = gulp.watch(paths.scss, [ 'scss-lint', 'scss' ]),
@@ -221,6 +228,7 @@ gulp.task('default', [
     'scss-lint',
     'scss',
     'fonts',
-    'api'
+    'api',
+    'rssMkdir'
 ]);
 
