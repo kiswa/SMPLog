@@ -11,7 +11,7 @@
                 <a [ngClass]="{ active: tab === 'posts' }"
                     (click)="changeTab('posts')">Posts</a>
             </li>
-            <li>
+            <li *ngIf="activeUser.is_admin === '1'">
                 <a [ngClass]="{ active: tab === 'authors' }"
                     (click)="changeTab('authors')">Authors</a>
             </li>
@@ -84,7 +84,7 @@
     </section>
 
     <section *ngIf="tab === 'settings'">
-        <form>
+        <form *ngIf="activeUser.is_admin === '1'">
             <h2>Blog Details</h2>
             <label>
                 Blog Name:
@@ -162,9 +162,15 @@
             {{ author.name }}<br>
             {{ author.post_count }} Post<span *ngIf="author.post_count !== 1">s</span><br>
             Username: {{ author.username }}
-            <button class="right flat error" *ngIf="activeUser.is_admin && activeUser.id !== author.id"
+            <button class="right flat error"
+                *ngIf="activeUser.is_admin && activeUser.id !== author.id && author.is_active === '1'"
                 (click)="removeAuthor(author.id)">
-                <i class="icon icon-cancel"></i>Remove
+                <i class="icon icon-cancel"></i> Remove
+            </button>
+            <button class="right flat"
+                *ngIf="activeUser.is_admin && author.is_active === '0'"
+                (click)="restoreAuthor(author.id)">
+                <i class="icon icon-ccw"></i> Restore
             </button>
         </div>
     </section>

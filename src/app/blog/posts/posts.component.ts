@@ -20,6 +20,7 @@ declare var hljs: any;
 export class Posts implements OnInit {
     private isLoading: boolean = true;
     private encodedUrl: string = '';
+    private currentYear: number = new Date().getFullYear();
     private convertedMarkdown: SafeHtml;
 
     private details: Details = <Details>{};

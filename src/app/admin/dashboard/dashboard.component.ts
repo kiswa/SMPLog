@@ -136,6 +136,27 @@ export class Dashboard implements OnInit {
             });
     }
 
+    restoreAuthor(id: number) {
+        let user = this.authors.find(author => {
+            return author.id === id;
+        });
+
+        if (!user) { return; }
+
+        user.is_active = true;
+
+        this.dashService.updateAuthor(user)
+            .subscribe((res: ApiResponse) => {
+                this.showNotes(res);
+
+                let index = this.authors.findIndex(user => {
+                    return user.id === id;
+                });
+
+                this.authors[index] = res.data[0];
+            });
+    }
+
     changePassword() {
         if (this.changePass.update === '' || this.changePass.verify === '') {
             this.notes.add(new Notification('error',
@@ -154,12 +175,17 @@ export class Dashboard implements OnInit {
             old_password: ''
         };
         let tmp = Object.assign(props, this.activeUser);
+
         tmp.password = this.changePass.update;
         tmp.old_password = this.changePass.current;
 
         this.dashService.updateAuthor(tmp)
             .subscribe((res: ApiResponse) => {
                 this.showNotes(res);
+
+                this.changePass.current = '';
+                this.changePass.update = '';
+                this.changePass.verify = '';
             });
     }
 

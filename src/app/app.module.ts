@@ -10,7 +10,6 @@ import { API_HTTP_PROVIDERS } from './app.api-http';
 import {
     AuthGuard,
     AuthService,
-    Constants,
     Notifications,
     NotificationsService,
     AdminNav,
@@ -31,7 +30,6 @@ import { BlogService } from './blog/blog.service';
         API_HTTP_PROVIDERS,
         AuthGuard,
         AuthService,
-        Constants,
         NotificationsService,
         DashboardService,
         EditorService,

@@ -18,6 +18,7 @@ export class Authors implements OnInit {
     private details: Details = <Details>{};
     private author: User = <User>{};
     private posts: Array<Post> = [];
+    private currentYear: number = new Date().getFullYear();
 
     private headerStyle: SafeStyle;
 
