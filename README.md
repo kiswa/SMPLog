@@ -1,4 +1,4 @@
-#SMPLog
+# SMPLog
 
 SMPLog is a Markdown-based minimalist blog application. It has been developed
 with a mobile-first point of view, and works well on any device.
@@ -24,8 +24,8 @@ built automatically.
 
 By default, SMPLog uses SQLite for the database. However, you can use just
 about anything. Take a look at the documentation for
-[RedBeanPHP](http://redbeanphp.com/connection) and change line 32 of
-`api/api.php` to use the setup you prefer.
+[RedBeanPHP](http://redbeanphp.com/connection) and change line 5 of
+`api/index.php` to use the setup you prefer.
 
 ## First Use
 
@@ -53,9 +53,8 @@ update the Blog Details (these sections do not display for standard users).
 There is only one admin user.
 
 Removing a user sets them as inactive, and all posts by that user are marked
-unpublished. The user and posts will still exist in the database. It is planned
-to allow the admin user to manage this, but for now you can access the database
-if any of the removed user's data is needed.
+unpublished. The user and posts still exist in the database. The admin user can
+manage this, and re-instate a user and their posts.
 
 ### Post Display
 
@@ -64,12 +63,11 @@ listed is created by pulling the first paragraph of text from the post. This
 means if the first thing in your post is `# Some Header Text`, then the short
 text will be `Some Header Text` and not the first actual paragraph.
 
-## Planned Features
+## Development
 
-There are a few features that might make this more useful, which are planned for
-further development.
-
-See [Issue #1](https://github.com/kiswa/SMPLog/issues/1)
+If you plan to develop SMPLog, you will need to update the base href in
+`src/index.html`to `<base href="/dist/">` and comment out the
+`enableProdMode()` line in `main.ts` to get Angular debug output.
 
 ## Tech Used
 
@@ -101,20 +99,24 @@ Because I find it interesting, even if it's not a good metric.
 
 `cloc --exclude-dir=vendor,lib --exclude-ext=json src/`
 
+### `src`
+
 |Language                 |  Files       | Blank      |   Comment    |  Code  |
 |-------------------------|:------------:|:----------:|:------------:|:------:|
-|TypeScript               |   34         |  286       |      8       |  1265  |
-|PHP                      |   10         |  279       |     13       |   781  |
+|TypeScript               |   33         |  292       |      7       |  1277  |
+|PHP                      |   10         |  286       |     13       |   798  |
 |SASS                     |   11         |  158       |      2       |   705  |
-|HTML                     |   10         |   58       |      0       |   450  |
-|**SUM:**                 | **65**       |**781**     |   **23**     |**3201**|
+|HTML                     |   10         |   58       |      0       |   456  |
+|**SUM:**                 | **64**       |**794**     |   **22**     |**3236**|
 
 `cloc --exclude-ext=xml test/`
 
+### `test`
+
 |Language                 |  Files       | Blank      |   Comment    |  Code  |
 |-------------------------|:------------:|:----------:|:------------:|:------:|
-|PHP                      |    6         |  393       |     13       |  1036  |
-|JavaScript               |   17         |  171       |     17       |   701  |
-|**SUM:**                 | **23**       |**563**     |   **30**     |**1737**|
+|PHP                      |    6         |  399       |     13       |  1054  |
+|JavaScript               |   21         |  236       |     21       |  1052  |
+|**SUM:**                 | **27**       |**635**     |   **34**     |**2106**|
 
-Last updated Dec. 14, 2016
+Last updated Dec. 15, 2016
