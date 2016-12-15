@@ -51,6 +51,10 @@
         padding-top: 1em;
     }
 
+    a {
+        cursor: pointer;
+    }
+
     form {
         @include clearfix;
 

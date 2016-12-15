@@ -1,0 +1,93 @@
+$grey: #666;
+
+.blog-header {
+    height: 25vh;
+
+    h1 {
+        font-size: 5em;
+        margin-top: 1.2em;
+
+        @include media($small) {
+            font-size: 4em;
+            margin-top: 1.4em;
+        }
+    }
+
+    a:hover,
+    a:active {
+        background-color: transparent;
+    }
+
+    .rss {
+        position: fixed;
+        right: 1em;
+        top: 2em;
+    }
+
+    .home {
+        left: 1em;
+        position: fixed;
+        top: 2em;
+    }
+}
+
+.blog {
+    margin-top: 25vh;
+    min-height: 70vh;
+
+    .post {
+        @include shadow-low;
+
+        margin-bottom: 1em;
+        padding: 1em;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        a:hover,
+        a:active {
+            background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==);
+            background-position-y: 1.15em;
+        }
+    }
+
+    .byline {
+        color: lighten($color-text, 50%);
+
+        a {
+            color: lighten($color-text, 50%);
+        }
+    }
+
+    h2 {
+        font-size: 2.5em;
+        margin: 0;
+
+        a:hover,
+        a:active {
+            color: $color-text;
+        }
+    }
+
+    a {
+        background-image: none;
+        font-size: .9em;
+    }
+
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .title {
+        color: $grey;
+    }
+
+    .author {
+        border-radius: 25%;
+        height: 25px;
+        vertical-align: sub;
+        width: 25px;
+    }
+}
+

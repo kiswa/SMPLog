@@ -1,0 +1,128 @@
+$light-grey: #e6e6e6;
+$twitter: #55acee;
+$reddit: #ff4500;
+$facebook: #3b5998;
+$gplus: #dd4b39;
+$linkedin: #0077b5;
+
+.post-header {
+    .rss {
+        float: right;
+        margin-right: 2em;
+        margin-top: -3.4em;
+    }
+
+    .home {
+        float: left;
+        margin-left: 2em;
+        margin-top: -3.4em;
+    }
+
+    a {
+        color: lighten($color-text, 50%);
+    }
+}
+
+.post-display {
+    @include media($small) {
+        padding: 1em;
+
+        h1 {
+            text-align: center;
+        }
+    }
+
+    pre {
+        border-radius: 4px;
+        padding: 1em;
+    }
+
+    .post {
+        img {
+            margin-left: -5%;
+            max-width: 110%;
+            width: 110%;
+
+            @include media($small) {
+                margin-left: -4.5%;
+                max-width: 109%;
+                width: 109%;
+            }
+        }
+    }
+
+    .date {
+        color: lighten($color-text, 50%);
+        font-size: .7em;
+        margin-top: -2em;
+    }
+
+    .links {
+        border-top: 1px solid $light-grey;
+        margin-top: 3em;
+        position: relative;
+
+        @include media($small) {
+            padding-top: 2em;
+        }
+
+        .author {
+            background-color: $white;
+            border: 1px solid $light-grey;
+            border-radius: 25%;
+            box-sizing: content-box;
+            height: 80px;
+            left: calc(50% - 40px);
+            margin-top: -8em;
+            min-width: auto;
+            padding: 5px;
+            position: absolute;
+            top: 95px;
+            width: 80px;
+        }
+
+        .header {
+            font-weight: 700;
+        }
+
+        .icon {
+            font-size: 2em;
+        }
+
+        .header a,
+        .share a {
+            background-image: none;
+        }
+
+        .header a:hover,
+        .header a:active {
+            background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==);
+            background-position-y: 1.1em;
+        }
+
+        .share a {
+            color: lighten($color-text, 50%);
+        }
+
+        .twitter:hover {
+            color: $twitter;
+        }
+
+        .reddit:hover {
+            color: $reddit;
+        }
+
+        .facebook:hover {
+            color: $facebook;
+        }
+
+        .gplus:hover {
+            color: $gplus;
+        }
+
+        .linkedin:hover {
+            color: $linkedin;
+        }
+    }
+}
+

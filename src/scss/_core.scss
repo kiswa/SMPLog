@@ -1,6 +1,6 @@
 body {
     font-size: 1.1em;
-    line-height: 1.8em;
+    line-height: 2em;
 }
 
 h1,
@@ -39,7 +39,7 @@ code {
 
 // Default styles for main layout sections
 header {
-    color: lighten($color-text, 40%);
+    color: lighten($color-text, 70%);
     font-size: .8em;
     height: 10vh;
     left: 0;
@@ -57,9 +57,10 @@ header {
         background-image: none;
         border: 1px solid transparent;
         border-radius: 2px;
-        color: lighten($color-text, 55%);
+        color: lighten($color-text, 70%);
         padding: .5em 1em;
         text-decoration: none;
+        text-shadow: none;
 
         &:hover,
         &:active {
@@ -101,8 +102,21 @@ article {
             font-size: .7em;
         }
 
+        .left,
         .right {
-            width: 17%;
+            font-size: .7em;
+            margin-top: -2.4em;
+            width: 30%;
+        }
+
+        .right {
+            padding-right: 7px;
+            text-align: right;
+        }
+
+        .left {
+            padding-left: 7px;
+            text-align: left;
         }
 
         a {
