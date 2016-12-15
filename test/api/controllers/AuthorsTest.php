@@ -34,7 +34,7 @@ class AuthorsTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals('success', $response->status);
         $this->assertEquals(1, count($response->data[0]));
-        $this->assertEquals('Anonymous', $response->data[0][1]['name']);
+        $this->assertEquals('Anonymous', $response->data[0][0]['name']);
     }
 
     public function testGetAuthorNotFound() {
@@ -78,6 +78,7 @@ class AuthorsTest extends PHPUnit_Framework_TestCase {
 
         $post = R::dispense('post');
         $post->user_id = 1;
+        $post->is_published = 1;
         $post->title = 'testing';
         R::store($post);
 
@@ -86,7 +87,7 @@ class AuthorsTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals('success', $response->status);
         $this->assertEquals(1, count($response->data[0]));
-        $this->assertEquals('testing', $response->data[0][1]['title']);
+        $this->assertEquals('testing', $response->data[0][0]['title']);
     }
 
 }
