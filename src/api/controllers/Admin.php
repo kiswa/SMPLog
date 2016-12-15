@@ -112,6 +112,11 @@ class Admin extends BaseController {
             }
         }
 
+        $is_restore = false;
+        if ($update->is_active !== $author->is_active) {
+            $is_restore = true;
+        }
+
         $this->loadUserData($author, $data);
 
         if (isset($data->password)) {
@@ -133,6 +138,12 @@ class Admin extends BaseController {
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
             'User ' . $author->username . ' updated.');
+
+        if ($is_restore) {
+            $this->apiJson->addAlert('warn',
+                'User ' . $author->username . "'s posts are not published.");
+        }
+
         $this->apiJson->addData($author->export());
 
         return $this->jsonResponse($response);
@@ -154,11 +165,17 @@ class Admin extends BaseController {
         }
 
         $author = R::load('user', $args['id']);
-        $username = $author->username;
-        R::trash($author);
+        $author->is_active = false;
+
+        foreach($author->ownPostList as $post) {
+            $post->is_published = false;
+            R::store($post);
+        }
+
+        R::store($author);
 
         $this->apiJson->setSuccess();
-        $this->apiJson->addAlert('success', 'User ' . $username . ' removed.');
+        $this->apiJson->addAlert('success', 'User ' . $author->username . ' removed.');
         $this->apiJson->addData($this->getAuthorsCleaned(true));
 
         return $this->jsonResponse($response);

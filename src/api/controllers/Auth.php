@@ -90,6 +90,13 @@ class Auth extends BaseController {
             return $this->jsonResponse($response, 401);
         }
 
+        if (!$user->is_active) {
+            $this->logger->addError('Login Attempt Inactive User ', [$data]);
+            $this->apiJson->addAlert('error', 'This username is not active.');
+
+            return $this->jsonResponse($response, 403);
+        }
+
         $jwt = self::createJwt($user->id, ($data->remember ? 100 : 1));
         $user = R::load('user', $user->id);
 
