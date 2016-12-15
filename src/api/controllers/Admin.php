@@ -188,7 +188,8 @@ class Admin extends BaseController {
 
         R::store($details);
 
-        // TODO: Update RSS feed
+        $rss = new RssGenerator();
+        $rss->updateRss();
 
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success', 'Blog details updated.');
@@ -225,18 +226,17 @@ class Admin extends BaseController {
         $post->title = $data->title;
         $post->text = $data->text;
         $post->slug = $this->createUniqueSlug($data->title);
-        $post->is_published = $data->publish;
-
-        if ($post->is_published) {
-            $post->publish_date = time();
-        }
 
         $user->ownPostList[] = $post;
         R::store($user);
 
+        $rss = new RssGenerator();
+        $rss->updateRss();
+
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
             'Post ' . $post->title . ' saved.');
+        $this->apiJson->addData($post->export());
 
         return $this->jsonResponse($response);
     }
@@ -262,8 +262,10 @@ class Admin extends BaseController {
 
         $post->title = $data->title;
         $post->text = $data->text;
-        $post->is_published = $data->publish;
         R::store($post);
+
+        $rss = new RssGenerator();
+        $rss->updateRss();
 
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
@@ -293,6 +295,9 @@ class Admin extends BaseController {
 
         $title = $post->title;
         R::trash($post);
+
+        $rss = new RssGenerator();
+        $rss->updateRss();
 
         $data = $this->getUserPosts($user->id);
 
@@ -326,6 +331,9 @@ class Admin extends BaseController {
         $post->publish_date = time();
         R::store($post);
 
+        $rss = new RssGenerator();
+        $rss->updateRss();
+
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',
             'Post ' . $post->title . ' published.');
@@ -355,6 +363,9 @@ class Admin extends BaseController {
         $post->is_published = false;
         $post->publish_date = null;
         R::store($post);
+
+        $rss = new RssGenerator();
+        $rss->updateRss();
 
         $this->apiJson->setSuccess();
         $this->apiJson->addAlert('success',

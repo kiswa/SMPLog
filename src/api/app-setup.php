@@ -47,3 +47,10 @@ $app->add(function($request, $response, $next) {
 
     return $next($request, $response);
 });
+
+// Create RSS on first run
+if (!file_exists('../rss/rss.xml')) {
+    $rss = new RssGenerator();
+    $rss->updateRss();
+}
+

@@ -6,12 +6,13 @@ class Posts extends BaseController {
     public function getPosts($request, $response, $args) {
         $posts = R::findAll('post', 'is_published = 1');
 
-        foreach ($posts as $key => $post) {
-            $posts[$key] = $post->export();
+        $data = [];
+        foreach ($posts as $post) {
+            $data[] = $post->export();
         }
 
         $this->apiJson->setSuccess();
-        $this->apiJson->addData($posts);
+        $this->apiJson->addData($data);
 
         return $this->jsonResponse($response);
     }
