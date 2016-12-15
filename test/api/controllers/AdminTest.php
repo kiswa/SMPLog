@@ -328,12 +328,14 @@ class AdminTest extends PHPUnit_Framework_TestCase {
         $user = R::dispense('user');
         $user->username = 'changeme';
         $user->password_hash = password_hash('admin', PASSWORD_BCRYPT);
+        $user->is_active = false;
         R::store($user);
 
         $update = new stdClass();
         $update->username = 'updated';
         $update->password = 'changed';
         $update->old_password = 'admin';
+        $update->is_active = true;
 
         $request = new RequestMock();
         $request->header = [$jwt];
@@ -388,9 +390,14 @@ class AdminTest extends PHPUnit_Framework_TestCase {
         $jwt = DataMock::getJwt();
         $this->setAdminToken($jwt);
 
+        $post = R::dispense('post');
+        $post->is_published = true;
+        $post->title = 'test';
+
         $user = R::dispense('user');
         $user->is_admin = false;
         $user->username = 'deleteme';
+        $user->ownPostList[] = $post;
         R::store($user);
 
         $request = new RequestMock();
@@ -403,7 +410,7 @@ class AdminTest extends PHPUnit_Framework_TestCase {
             new ResponseMock(), $args);
 
         $this->assertEquals('success', $response->status);
-        $this->assertEquals(1, R::count('user'));
+        $this->assertEquals(2, R::count('user'));
     }
 
     public function testUpdateDetailsNoAuth() {

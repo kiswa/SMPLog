@@ -3,7 +3,10 @@ var MockBrowser = require('mock-browser').mocks.MockBrowser,
     mockBrowser = new MockBrowser(),
     chai = require('chai');
 
-global.window = {};
+global.window = {
+    scrollTo: () => {},
+    location: { href: 'test' }
+};
 
 global.RxJs = require('rxjs/Rx');
 global.expect = chai.expect;

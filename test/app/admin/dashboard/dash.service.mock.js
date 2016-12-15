@@ -45,7 +45,7 @@ global.DashServiceMock = {
     updateAuthor: () => {
         return RxJs.Observable.of({
             alerts: [{ type: 'success' }],
-            data: [{ username: 'updated' }]
+            data: [{ id: 1, username: 'updated' }]
         });
     },
     addAuthor: () => {

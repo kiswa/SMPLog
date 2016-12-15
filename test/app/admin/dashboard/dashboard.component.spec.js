@@ -86,16 +86,29 @@ describe('Dashboard', () => {
             password: 'test',
             verify: 'test'
         };
-
         dashboard.addAuthor();
 
         expect(dashboard.authors.username).to.equal('test');
     });
 
-    it('can remove an author', () => {
+    it('can remove an author', done => {
+        dashboard.authors = [{ id: 1 }];
         dashboard.removeAuthor(1);
 
-        expect(dashboard.authors.length).to.equal(0);
+        DashServiceMock.removeAuthor().subscribe(() => {
+            expect(dashboard.authors.length).to.equal(0);
+            done();
+        });
+    });
+
+    it('can restore an author', done => {
+        dashboard.authors = [{ id: 1 }];
+        dashboard.restoreAuthor(1);
+
+        DashServiceMock.updateAuthor().subscribe(() => {
+            expect(dashboard.authors.length).to.equal(1);
+            done();
+        });
     });
 
     it('validates password change requests', done => {

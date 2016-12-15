@@ -101,6 +101,23 @@ class AuthTest extends PHPUnit_Framework_TestCase {
             $response->alerts[0]['text']);
     }
 
+    public function testLoginInactiveUser() {
+        Auth::CreateInitialAdmin(new ContainerMock());
+
+        $admin = R::load('user', 1);
+        $admin->is_active = false;
+        R::store($admin);
+
+        $request = new RequestMock();
+        $request->payload = $this->getAdminLogin();
+
+        $response = $this->auth->login($request, new ResponseMock(), null);
+
+        $this->assertEquals('failure', $response->status);
+        $this->assertEquals('This username is not active.',
+            $response->alerts[0]['text']);
+    }
+
     public function testLoginValid() {
         Auth::CreateInitialAdmin(new ContainerMock());
 
