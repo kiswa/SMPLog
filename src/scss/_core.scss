@@ -1,103 +1,16 @@
 body {
-    color: $font-color;
     font-size: 1.1em;
-    line-height: 1.8em;
+    line-height: 2em;
 }
 
-a {
-    background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==);
-    background-position: left 1.1em;
-    background-repeat: repeat-x;
-    color: $font-color;
-    text-decoration: none;
-    transition: all .2s ease-in-out;
-
-    &:hover,
-    &:active {
-        background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
-    }
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid lighten($font-color, 70%);
-}
-
-body>header {
-    font-size: .8em;
-    left: 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-
-    .left,
-    .right {
-        margin: 2em 1em;
-    }
-
-
-    a {
-        background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
-        border: 1px solid transparent;
-        border-radius: 2px;
-        color: lighten($font-color, 55%);
-        padding: .5em 1em;
-        text-decoration: none;
-
-        &:hover,
-        &:active {
-            border: 1px solid lighten($font-color, 70%);
-        }
-    }
-}
-
-main {
-    background-color: #fff;
-    box-shadow: 0 0 35px 0 rgba(0, 0, 0, .25);
-    margin-bottom: 3em;
-    margin-top: 5em;
-    padding-bottom: 2em;
-    padding-top: 2em;
-    position: relative;
-    z-index: 10;
-
-    @include media($small) {
-        margin-bottom: 15vh;
-        margin-top: 15vh;
-    }
-
-    h1 {
-        font-size: 3em;
-    }
-}
-
-body>footer {
-    bottom: 0;
-    color: lighten($font-color, 55%);
-    font-size: .8em;
-    left: 0;
-    min-height: 3em;
-    padding-left: 1em;
-    padding-right: 1em;
-    position: fixed;
-    right: 0;
-
-    p {
-        margin-bottom: .5em;
-        margin-top: 0;
-    }
-
-    a {
-        background-image: none;
-        color: lighten($font-color, 35%);
-        text-decoration: none;
-        transition: all .2s linear;
-
-        &:hover,
-        &:active {
-            color: lighten($font-color, 15%);
-        }
-    }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Josefin Slab', serif;
+    line-height: 1em;
 }
 
 .left {
@@ -111,3 +24,144 @@ body>footer {
 .center {
     text-align: center;
 }
+
+.loading {
+    padding-top: 2em;
+    text-align: center;
+}
+
+code {
+    background-color: transparent;
+    border: 0;
+    line-height: 1.7em;
+    padding: 0;
+}
+
+// Default styles for main layout sections
+header {
+    color: lighten($color-text, 70%);
+    font-size: .8em;
+    height: 10vh;
+    left: 0;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+
+    .left,
+    .right {
+        margin: 2em 1em;
+    }
+
+    a {
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        color: lighten($color-text, 70%);
+        padding: .5em 1em;
+        text-decoration: none;
+        text-shadow: none;
+
+        &:hover,
+        &:active {
+            background-color: $white;
+            border: 1px solid lighten($color-text, 70%);
+        }
+    }
+}
+
+article {
+    background-color: $white;
+    box-shadow: 0 0 35px 0 rgba(0, 0, 0, .25);
+    margin-bottom: 5vh;
+    margin-top: 9vh;
+    min-height: 86vh;
+    padding-bottom: 2em;
+    padding-top: 2em;
+    position: relative;
+    z-index: 10;
+
+    @include media($small) {
+        margin-top: 10vh;
+        min-height: 85vh;
+    }
+
+    h1 {
+        font-size: 3em;
+    }
+
+    section {
+        @include outer-container;
+    }
+
+    .pagination {
+        text-align: center;
+
+        p {
+            color: lighten($color-text, 33%);
+            font-size: .7em;
+        }
+
+        .left,
+        .right {
+            font-size: .7em;
+            margin-top: -2.4em;
+            width: 30%;
+        }
+
+        .right {
+            padding-right: 7px;
+            text-align: right;
+        }
+
+        .left {
+            padding-left: 7px;
+            text-align: left;
+        }
+
+        a {
+            background-image: none;
+            border: 1px solid lighten($color-text, 40%);
+            border-radius: 2px;
+            color: lighten($color-text, 33%);
+            padding: .5em 1em;
+            text-decoration: none;
+
+            &:hover,
+            &:active {
+                background-color: $white;
+                border: 1px solid lighten($color-text, 20%);
+                color: lighten($color-text, 20%);
+            }
+        }
+    }
+}
+
+footer {
+    bottom: 0;
+    color: lighten($color-text, 55%);
+    font-size: .8em;
+    height: 5vh;
+    left: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+    position: fixed;
+    right: 0;
+
+    p {
+        margin-top: .7em;
+    }
+
+    a {
+        background-image: none;
+        color: lighten($color-text, 35%);
+        text-decoration: none;
+        transition: all .2s linear;
+
+        &:hover,
+        &:active {
+            color: lighten($color-text, 15%);
+        }
+    }
+}
+

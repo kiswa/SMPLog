@@ -1,0 +1,76 @@
+<header class="blog-header" [style]="headerStyle">
+    <h1>{{ details.name }}</h1>
+
+    <div class="rss">
+        <a href="rss/rss.xml" target="_self">
+            <i class="icon icon-rss"></i>
+            Subscribe
+        </a>
+    </div>
+</header>
+
+<article class="blog">
+    <section class="post" *ngIf="isLoading">
+        <div class="center">
+            Loading Posts...
+        </div>
+    </section>
+
+    <section class="post" *ngFor="let post of paging.visiblePosts">
+        <h2>
+            <a class="title" [routerLink]="['posts/' + post.slug]">
+                {{ post.title }}
+            </a>
+        </h2>
+
+        <span [innerHtml]="post.short_text"></span>
+
+        <p class="byline">
+            <img class="author"
+                src="{{ getAuthor(post.user_id).image }}"
+                alt="Author Image"
+                *ngIf="getAuthor(post.user_id).image.length">
+            <a [routerLink]="['authors/' + post.user_id]">
+                {{ getAuthor(post.user_id).name }}</a> |
+            <span class="date">
+                {{ (post.publish_date * 1000) | date:'fullDate' | uppercase }}
+            </span>
+        </p>
+    </section>
+
+    <section class="post" *ngIf="posts.length === 0 && !isLoading">
+        <h2>No Posts Here Yet</h2>
+        <p>Come back again soon for new content to enjoy.</p>
+    </section>
+
+    <section class="pagination" *ngIf="paging.total > 1">
+        <p>
+            Page {{ paging.current }} of {{ paging.total }}
+        </p>
+        <span class="left" *ngIf="paging.showNewer">
+            <a href="javascript:" (click)="prevPage()">
+                <i class="icon icon-left-open"></i>
+                Newer Posts
+            </a>
+        </span>
+        <span class="right" *ngIf="paging.showOlder">
+            <a href="javascript:" (click)="nextPage()">
+                Older Posts
+                <i class="icon icon-right-open"></i>
+            </a>
+        </span>
+    </section>
+</article>
+
+<footer>
+    <p class="left">
+        <a href="">{{ details.name }}</a>
+        Copyright <i class="icon icon-copyright"></i> {{ currentYear }}.
+    </p>
+    <p class="right">
+        Published with
+        <a href="https://github.com/kiswa/SMPLog" target="blank">
+            <i class="icon icon-github-circled"></i> SMPLog</a>.
+    </p>
+</footer>
+

@@ -1,3 +1,0 @@
-bower install
-npm install
-php composer.phar install

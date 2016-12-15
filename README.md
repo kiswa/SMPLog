@@ -1,4 +1,4 @@
-#SMPLog
+# SMPLog
 
 SMPLog is a Markdown-based minimalist blog application. It has been developed
 with a mobile-first point of view, and works well on any device.
@@ -6,8 +6,7 @@ with a mobile-first point of view, and works well on any device.
 ## Install
 
  1. Clone the repo: `git clone https://github.com/kiswa/SMPLog`
- 2. Install dependencies: `./dev-setup` or `bower install && npm install &&
- ./composer.phar install`
+ 2. Install dependencies: `npm i`
  3. Build and minify SMPLog: `gulp && gulp minify`
 
 After building, the `dist` directory has all the files needed to run SMPLog.
@@ -19,15 +18,14 @@ you will need to update the `index.html` file in `dist`. Change the
 `<base href="/blog/">`).
 
 If you want to develop on SMPLog, you can run `gulp watch` and changes will be
-updated to your browser if you have the
-[fb-flo plugin](https://facebook.github.io/fb-flo) installed.
+built automatically.
 
 ### Database
 
 By default, SMPLog uses SQLite for the database. However, you can use just
 about anything. Take a look at the documentation for
-[RedBeanPHP](http://redbeanphp.com/connection) and change line 32 of
-`api/api.php` to use the setup you prefer.
+[RedBeanPHP](http://redbeanphp.com/connection) and change line 5 of
+`api/index.php` to use the setup you prefer.
 
 ## First Use
 
@@ -37,7 +35,7 @@ username `admin` and password `admin`.
 
 It is recommended you then visit the `Settings` link and change your password.
 
-While you're in `Settings`, the admin user can change the title of the blog,
+While in `Settings`, the admin user can change the title of the blog,
 set the background image for the header section, and update the description
 used in the RSS feed.
 
@@ -55,9 +53,8 @@ update the Blog Details (these sections do not display for standard users).
 There is only one admin user.
 
 Removing a user sets them as inactive, and all posts by that user are marked
-unpublished. The user and posts will still exist in the database. It is planned
-to allow the admin user to manage this, but for now you can access the database
-if any of the removed user's data is needed.
+unpublished. The user and posts still exist in the database. The admin user can
+manage this, and re-instate a user and their posts.
 
 ### Post Display
 
@@ -66,28 +63,25 @@ listed is created by pulling the first paragraph of text from the post. This
 means if the first thing in your post is `# Some Header Text`, then the short
 text will be `Some Header Text` and not the first actual paragraph.
 
-## Planned Features
+## Development
 
-There are a few features that might make this more useful, which are planned for
-further development.
-
-See [Issue #1](https://github.com/kiswa/SMPLog/issues/1)
+If you plan to develop SMPLog, you will need to update the base href in
+`src/index.html`to `<base href="/dist/">` and comment out the
+`enableProdMode()` line in `main.ts` to get Angular debug output.
 
 ## Tech Used
 
 This project was made possible by the following open source projects:
 
 ### Front End
- * [AngularJS](http://angularjs.org) (including angular-route, angular-animate,
- and angular-sanitize)
+ * [Angular](http://angular.io)
  * [Bourbon](http://bourbon.io) & [Neat](http://neat.bourbon.io) - A few handy
  mixins and responsive grid system
  * [Font Awesome](http://fortawesome.github.io/Font-Awesome) - Font icons,
  of course
  * [highlight.js](https://highlightjs.org) - Syntax highlighting for the Web
  * [marked](https://github.com/chjj/marked) - A fast JavaScript Markdown parser
- * [normalize.css](https://necolas.github.io/normalize.css) - A modern,
- HTML5-ready alternative to CSS resets
+ * [scss-base](https://github.com/kiswa/scss-base) - Minimal clean styles for SCSS projects
 
 ### Back End
  * [Slim](http://www.slimframework.com) - A PHP micro framework to quickly write
@@ -103,12 +97,26 @@ This project was made possible by the following open source projects:
 
 Because I find it interesting, even if it's not a good metric.
 
+`cloc --exclude-dir=vendor,lib --exclude-ext=json src/`
+
+### `src`
+
 |Language                 |  Files       | Blank      |   Comment    |  Code  |
 |-------------------------|:------------:|:----------:|:------------:|:------:|
-|Javascript               |   16         |  244       |      1       |  1049  |
-|SASS                     |    8         |  153       |      1       |   711  |
-|PHP                      |    9         |  192       |     16       |   601  |
-|HTML                     |   10         |   16       |      0       |   291  |
-|**SUM:**                 | **43**       |**605**     |   **18**     |**2652**|
+|TypeScript               |   33         |  292       |      7       |  1277  |
+|PHP                      |   10         |  286       |     13       |   798  |
+|SASS                     |   11         |  158       |      2       |   705  |
+|HTML                     |   10         |   58       |      0       |   456  |
+|**SUM:**                 | **64**       |**794**     |   **22**     |**3236**|
 
-Last updated August 22, 2015
+`cloc --exclude-ext=xml test/`
+
+### `test`
+
+|Language                 |  Files       | Blank      |   Comment    |  Code  |
+|-------------------------|:------------:|:----------:|:------------:|:------:|
+|PHP                      |    6         |  399       |     13       |  1054  |
+|JavaScript               |   21         |  236       |     21       |  1052  |
+|**SUM:**                 | **27**       |**635**     |   **34**     |**2106**|
+
+Last updated Dec. 15, 2016
