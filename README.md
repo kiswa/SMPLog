@@ -3,7 +3,7 @@
 SMPLog is a Markdown-based minimalist blog application. It has been developed
 with a mobile-first point of view, and works well on any device.
 
-![SMPLog Editor](./.github/SMPLog.png);
+![SMPLog Editor](./.github/SMPLog.png)
 
 ## Install
 
